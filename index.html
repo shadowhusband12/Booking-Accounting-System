@@ -483,7 +483,8 @@
                     <tr>
                         <th>Date</th>
                         <th>Name</th>
-                        <th>Item/Qty</th>
+                        <th>Item</th>
+                        <th>Qty</th>
                         <th>Price</th>
                         <th>Status</th>
                         <th>Total</th>
@@ -804,7 +805,7 @@
                 });
 
                 if (bookings.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
                     document.getElementById('totalPrice').textContent = formatRupiah(0);
                     allBookings = [];
                     return;
@@ -820,7 +821,8 @@
                             row.innerHTML = `
                                 <td>${index === 0 ? booking.date : ''}</td>
                                 <td>${index === 0 ? booking.customerName || booking.name || '-' : ''}</td>
-                                <td>${item.name} (${item.qty})</td>
+                                <td>${item.name}</td>
+                                <td>${item.qty}</td>
                                 <td>${formatRupiah(item.price)}</td>
                                 <td>
                                     ${index === 0 ? `<select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
@@ -839,6 +841,7 @@
                             <td>${booking.date}</td>
                             <td>${booking.name || '-'}</td>
                             <td>-</td>
+                            <td>${booking.qty || 0}</td>
                             <td>${formatRupiah(booking.price || 0)}</td>
                             <td>
                                 <select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
