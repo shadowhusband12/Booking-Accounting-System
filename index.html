@@ -567,6 +567,12 @@
 </div>
 
 <div class="form-group">
+  <label for="voucherShopee">Voucher Shopee:</label>
+  <input type="number" id="voucherShopee" min="0" value="0" oninput="calculateTotal()">
+  <small style="color: #888;">Voucher Shopee akan mengurangi total harga akhir</small>
+</div>
+
+<div class="form-group">
   <label for="protectionFee">Proteksi:</label>
   <input type="number" id="protectionFee" min="0" value="0" oninput="calculateTotal()">
   <small style="color: #888;">Proteksi akan menambah total harga akhir</small>
@@ -773,14 +779,18 @@
     const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
     const coinUsed = parseInt(document.getElementById('coinUsed')?.value) || 0;
     const voucherStore = parseInt(document.getElementById('voucherStore')?.value) || 0;
+    const voucherShopee = parseInt(document.getElementById('voucherShopee')?.value) || 0;
     const protectionFee = parseInt(document.getElementById('protectionFee')?.value) || 0;
 
-    let total = subtotal + serviceFee + shippingCost + protectionFee - shippingDiscount - coinUsed - voucherStore;
+    let total = subtotal + serviceFee + shippingCost + protectionFee 
+                - shippingDiscount - coinUsed - voucherStore - voucherShopee;
+
     if (total < 0) total = 0;
 
     document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
     document.getElementById('modalTotal').textContent = formatRupiah(total);
 }
+
 
 
 
@@ -827,10 +837,12 @@
     const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
     const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
     const coinUsed = parseInt(document.getElementById('coinUsed').value) || 0;
-const protectionFee = parseInt(document.getElementById('protectionFee').value) || 0;
 const voucherStore = parseInt(document.getElementById('voucherStore').value) || 0;
+const voucherShopee = parseInt(document.getElementById('voucherShopee').value) || 0;
+const protectionFee = parseInt(document.getElementById('protectionFee').value) || 0;
 
-let finalTotal = subtotal + serviceFee + shippingCost + protectionFee - shippingDiscount - coinUsed - voucherStore;
+let finalTotal = subtotal + serviceFee + shippingCost + protectionFee 
+                - shippingDiscount - coinUsed - voucherStore - voucherShopee;
 if (finalTotal < 0) finalTotal = 0;
 
 const newBooking = {
@@ -843,6 +855,7 @@ const newBooking = {
     shippingDiscount: shippingDiscount,
     coinUsed: coinUsed,
     voucherStore: voucherStore,
+    voucherShopee: voucherShopee,
     protectionFee: protectionFee,
     total: finalTotal,
     timestamp: Date.now()
