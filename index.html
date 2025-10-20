@@ -200,25 +200,10 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.2s;
-            margin-right: 5px;
         }
 
         .btn-delete:hover {
             background: #ff3838;
-        }
-
-        .btn-edit {
-            background: #ffa502;
-            color: white;
-            border: none;
-            padding: 6px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-edit:hover {
-            background: #ff8c00;
         }
 
         .total-row {
@@ -749,30 +734,20 @@
 
         window.calculateTotal = function() {
             const itemRows = document.querySelectorAll('.item-row');
-            let subtotal = 0;
+            let total = 0;
             
             itemRows.forEach(row => {
                 const qty = parseInt(row.querySelector('.item-qty').value) || 0;
                 const price = parseInt(row.querySelector('.item-price').value) || 0;
-                subtotal += qty * price;
+                total += qty * price;
             });
             
-            const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
-            const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
-            const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
-            
-            const total = subtotal + serviceFee + shippingCost - shippingDiscount;
-            
-            document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
             document.getElementById('modalTotal').textContent = formatRupiah(total);
         }
 
         window.openModal = function() {
             document.getElementById('myModal').style.display = 'block';
             document.getElementById('itemsContainer').innerHTML = '';
-            document.getElementById('serviceFee').value = 0;
-            document.getElementById('shippingCost').value = 0;
-            document.getElementById('shippingDiscount').value = 0;
             itemCounter = 0;
             addItemRow();
         }
@@ -789,13 +764,10 @@
             const date = document.getElementById('date').value;
             const customerName = document.getElementById('customerName').value;
             const status = document.getElementById('status').value;
-            const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
-            const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
-            const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
             
             const itemRows = document.querySelectorAll('.item-row');
             const items = [];
-            let subtotal = 0;
+            let total = 0;
             
             itemRows.forEach(row => {
                 const name = row.querySelector('.item-name').value;
@@ -804,7 +776,7 @@
                 const itemTotal = qty * price;
                 
                 items.push({ name, qty, price, total: itemTotal });
-                subtotal += itemTotal;
+                total += itemTotal;
             });
 
             if (items.length === 0) {
@@ -812,16 +784,10 @@
                 return;
             }
 
-            const total = subtotal + serviceFee + shippingCost - shippingDiscount;
-
             const newBooking = {
                 date: date,
                 customerName: customerName,
                 items: items,
-                serviceFee: serviceFee,
-                shippingCost: shippingCost,
-                shippingDiscount: shippingDiscount,
-                subtotal: subtotal,
                 status: status,
                 total: total,
                 timestamp: Date.now()
@@ -931,10 +897,6 @@
                             'Item': item.name,
                             'Quantity': item.qty,
                             'Price': item.price,
-                            'Subtotal': index === 0 ? booking.subtotal || booking.total : '',
-                            'Biaya Layanan': index === 0 ? (booking.serviceFee || 0) : '',
-                            'Total Pengiriman': index === 0 ? (booking.shippingCost || 0) : '',
-                            'Diskon Pengiriman': index === 0 ? (booking.shippingDiscount || 0) : '',
                             'Status': index === 0 ? booking.status : '',
                             'Total': index === 0 ? booking.total : ''
                         });
@@ -946,10 +908,6 @@
                         'Item': '-',
                         'Quantity': booking.qty || 0,
                         'Price': booking.price || 0,
-                        'Subtotal': booking.subtotal || booking.total,
-                        'Biaya Layanan': booking.serviceFee || 0,
-                        'Total Pengiriman': booking.shippingCost || 0,
-                        'Diskon Pengiriman': booking.shippingDiscount || 0,
                         'Status': booking.status,
                         'Total': booking.total
                     });
@@ -964,10 +922,6 @@
                 'Item': '',
                 'Quantity': '',
                 'Price': '',
-                'Subtotal': '',
-                'Biaya Layanan': '',
-                'Total Pengiriman': '',
-                'Diskon Pengiriman': '',
                 'Status': 'GRAND TOTAL',
                 'Total': totalAmount
             });
@@ -977,12 +931,8 @@
 
             ws['!cols'] = [
                 { wch: 12 },
-                { wch: 20 },
                 { wch: 25 },
                 { wch: 10 },
-                { wch: 15 },
-                { wch: 15 },
-                { wch: 15 },
                 { wch: 15 },
                 { wch: 15 },
                 { wch: 12 },
