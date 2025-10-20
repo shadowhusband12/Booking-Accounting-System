@@ -496,7 +496,7 @@
                 </tbody>
                 <tfoot>
                     <tr class="total-row">
-                        <td colspan="5" style="text-align: right;">Total Price:</td>
+                        <td colspan="6" style="text-align: right;">Total Price:</td>
                         <td id="totalPrice">Rp 0</td>
                         <td></td>
                     </tr>
@@ -528,8 +528,27 @@
                             <!-- Item rows will be added here -->
                         </div>
                         <div class="item-total">
-                            Total: <span id="modalTotal">Rp 0</span>
+                            Subtotal Items: <span id="modalSubtotal">Rp 0</span>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="serviceFee">Biaya Layanan:</label>
+                        <input type="number" id="serviceFee" min="0" value="0" oninput="calculateTotal()">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shippingCost">Total Pengiriman:</label>
+                        <input type="number" id="shippingCost" min="0" value="0" oninput="calculateTotal()">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shippingDiscount">Diskon Pengiriman:</label>
+                        <input type="number" id="shippingDiscount" min="0" value="0" oninput="calculateTotal()">
+                    </div>
+
+                    <div class="item-total" style="font-size: 1.2em; margin-top: 15px;">
+                        Total Keseluruhan: <span id="modalTotal">Rp 0</span>
                     </div>
 
                     <div class="form-group">
@@ -715,20 +734,30 @@
 
         window.calculateTotal = function() {
             const itemRows = document.querySelectorAll('.item-row');
-            let total = 0;
+            let subtotal = 0;
             
             itemRows.forEach(row => {
                 const qty = parseInt(row.querySelector('.item-qty').value) || 0;
                 const price = parseInt(row.querySelector('.item-price').value) || 0;
-                total += qty * price;
+                subtotal += qty * price;
             });
             
+            const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
+            const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
+            const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
+            
+            const total = subtotal + serviceFee + shippingCost - shippingDiscount;
+            
+            document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
             document.getElementById('modalTotal').textContent = formatRupiah(total);
         }
 
         window.openModal = function() {
             document.getElementById('myModal').style.display = 'block';
             document.getElementById('itemsContainer').innerHTML = '';
+            document.getElementById('serviceFee').value = 0;
+            document.getElementById('shippingCost').value = 0;
+            document.getElementById('shippingDiscount').value = 0;
             itemCounter = 0;
             addItemRow();
         }
@@ -745,10 +774,13 @@
             const date = document.getElementById('date').value;
             const customerName = document.getElementById('customerName').value;
             const status = document.getElementById('status').value;
+            const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
+            const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
+            const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
             
             const itemRows = document.querySelectorAll('.item-row');
             const items = [];
-            let total = 0;
+            let subtotal = 0;
             
             itemRows.forEach(row => {
                 const name = row.querySelector('.item-name').value;
@@ -757,7 +789,7 @@
                 const itemTotal = qty * price;
                 
                 items.push({ name, qty, price, total: itemTotal });
-                total += itemTotal;
+                subtotal += itemTotal;
             });
 
             if (items.length === 0) {
@@ -765,10 +797,16 @@
                 return;
             }
 
+            const total = subtotal + serviceFee + shippingCost - shippingDiscount;
+
             const newBooking = {
                 date: date,
                 customerName: customerName,
                 items: items,
+                serviceFee: serviceFee,
+                shippingCost: shippingCost,
+                shippingDiscount: shippingDiscount,
+                subtotal: subtotal,
                 status: status,
                 total: total,
                 timestamp: Date.now()
@@ -878,6 +916,10 @@
                             'Item': item.name,
                             'Quantity': item.qty,
                             'Price': item.price,
+                            'Subtotal': index === 0 ? booking.subtotal || booking.total : '',
+                            'Biaya Layanan': index === 0 ? (booking.serviceFee || 0) : '',
+                            'Total Pengiriman': index === 0 ? (booking.shippingCost || 0) : '',
+                            'Diskon Pengiriman': index === 0 ? (booking.shippingDiscount || 0) : '',
                             'Status': index === 0 ? booking.status : '',
                             'Total': index === 0 ? booking.total : ''
                         });
@@ -889,6 +931,10 @@
                         'Item': '-',
                         'Quantity': booking.qty || 0,
                         'Price': booking.price || 0,
+                        'Subtotal': booking.subtotal || booking.total,
+                        'Biaya Layanan': booking.serviceFee || 0,
+                        'Total Pengiriman': booking.shippingCost || 0,
+                        'Diskon Pengiriman': booking.shippingDiscount || 0,
                         'Status': booking.status,
                         'Total': booking.total
                     });
@@ -903,6 +949,10 @@
                 'Item': '',
                 'Quantity': '',
                 'Price': '',
+                'Subtotal': '',
+                'Biaya Layanan': '',
+                'Total Pengiriman': '',
+                'Diskon Pengiriman': '',
                 'Status': 'GRAND TOTAL',
                 'Total': totalAmount
             });
