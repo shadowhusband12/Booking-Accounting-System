@@ -226,6 +226,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
         }
 
         .modal-content {
@@ -234,7 +235,7 @@
             padding: 30px;
             border-radius: 15px;
             width: 90%;
-            max-width: 500px;
+            max-width: 700px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
@@ -319,6 +320,98 @@
         #mainApp {
             display: none;
         }
+
+        /* Multiple Items Styles */
+        .items-container {
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+        }
+
+        .items-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .items-header h3 {
+            color: #667eea;
+            margin: 0;
+        }
+
+        .btn-add-item {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-add-item:hover {
+            background: #5568d3;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: end;
+        }
+
+        .item-row input {
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .item-row input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-remove-item {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            height: 36px;
+        }
+
+        .btn-remove-item:hover {
+            background: #ff3838;
+        }
+
+        .item-total {
+            text-align: right;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #667eea;
+        }
+
+        .store-info {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .item-row {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -389,20 +482,18 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Name</th>
-                        <th>Qty</th>
-                        <th>Price</th>
+                        <th>Items</th>
                         <th>Status</th>
                         <th>Total</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr><td colspan="7" style="text-align: center; padding: 20px;">Loading data...</td></tr>
+                    <tr><td colspan="6" style="text-align: center; padding: 20px;">Loading data...</td></tr>
                 </tbody>
                 <tfoot>
                     <tr class="total-row">
-                        <td colspan="5" style="text-align: right;">Total Price:</td>
+                        <td colspan="3" style="text-align: right;">Total Price:</td>
                         <td id="totalPrice">Rp 0</td>
                         <td></td>
                     </tr>
@@ -419,18 +510,20 @@
                         <label for="date">Date:</label>
                         <input type="date" id="date" required>
                     </div>
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" required>
+
+                    <div class="items-container">
+                        <div class="items-header">
+                            <h3>Items</h3>
+                            <button type="button" class="btn-add-item" onclick="addItemRow()">+ Add Item</button>
+                        </div>
+                        <div id="itemsContainer">
+                            <!-- Item rows will be added here -->
+                        </div>
+                        <div class="item-total">
+                            Total: <span id="modalTotal">Rp 0</span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="qty">Quantity:</label>
-                        <input type="number" id="qty" min="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Price (Rp):</label>
-                        <input type="number" id="price" min="0" required>
-                    </div>
+
                     <div class="form-group">
                         <label for="status">Status:</label>
                         <select id="status" required>
@@ -439,7 +532,7 @@
                             <option value="Cancelled">Cancelled</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn-submit">Add Booking</button>
+                    <button type="submit" class="btn-submit">Save Booking</button>
                 </form>
             </div>
         </div>
@@ -450,7 +543,6 @@
         import { getDatabase, ref, onValue, push, remove, update } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-        // Import SheetJS
         const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.1/package/xlsx.mjs');
 
         const firebaseConfig = {
@@ -470,8 +562,8 @@
         const bookingsRef = ref(database, 'bookings');
 
         let allBookings = [];
+        let itemCounter = 0;
 
-        // Tab switching
         window.showTab = function(tab) {
             const loginForm = document.getElementById('loginForm');
             const registerForm = document.getElementById('registerForm');
@@ -511,7 +603,6 @@
             document.getElementById('authSuccess').style.display = 'none';
         }
 
-        // Handle Register
         window.handleRegister = async function(event) {
             event.preventDefault();
             hideMessages();
@@ -543,7 +634,6 @@
             }
         }
 
-        // Handle Login
         window.handleLogin = async function(event) {
             event.preventDefault();
             hideMessages();
@@ -565,7 +655,6 @@
             }
         }
 
-        // Handle Logout
         window.handleLogout = async function() {
             try {
                 await signOut(auth);
@@ -574,7 +663,6 @@
             }
         }
 
-        // Auth State Observer
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('authSection').style.display = 'none';
@@ -591,30 +679,86 @@
             return 'Rp ' + amount.toLocaleString('id-ID');
         }
 
+        window.addItemRow = function() {
+            const itemsContainer = document.getElementById('itemsContainer');
+            const itemId = itemCounter++;
+            
+            const itemRow = document.createElement('div');
+            itemRow.className = 'item-row';
+            itemRow.id = `item-${itemId}`;
+            itemRow.innerHTML = `
+                <input type="text" placeholder="Item name" class="item-name" required>
+                <input type="number" placeholder="Qty" min="1" class="item-qty" required oninput="calculateTotal()">
+                <input type="number" placeholder="Price" min="0" class="item-price" required oninput="calculateTotal()">
+                <button type="button" class="btn-remove-item" onclick="removeItemRow(${itemId})">×</button>
+            `;
+            
+            itemsContainer.appendChild(itemRow);
+            calculateTotal();
+        }
+
+        window.removeItemRow = function(itemId) {
+            const itemRow = document.getElementById(`item-${itemId}`);
+            if (itemRow) {
+                itemRow.remove();
+                calculateTotal();
+            }
+        }
+
+        window.calculateTotal = function() {
+            const itemRows = document.querySelectorAll('.item-row');
+            let total = 0;
+            
+            itemRows.forEach(row => {
+                const qty = parseInt(row.querySelector('.item-qty').value) || 0;
+                const price = parseInt(row.querySelector('.item-price').value) || 0;
+                total += qty * price;
+            });
+            
+            document.getElementById('modalTotal').textContent = formatRupiah(total);
+        }
+
         window.openModal = function() {
             document.getElementById('myModal').style.display = 'block';
+            document.getElementById('itemsContainer').innerHTML = '';
+            itemCounter = 0;
+            addItemRow();
         }
 
         window.closeModal = function() {
             document.getElementById('myModal').style.display = 'none';
             document.getElementById('bookingForm').reset();
+            document.getElementById('itemsContainer').innerHTML = '';
         }
 
         window.addBooking = function(event) {
             event.preventDefault();
             
             const date = document.getElementById('date').value;
-            const name = document.getElementById('name').value;
-            const qty = parseInt(document.getElementById('qty').value);
-            const price = parseInt(document.getElementById('price').value);
             const status = document.getElementById('status').value;
-            const total = qty * price;
+            
+            const itemRows = document.querySelectorAll('.item-row');
+            const items = [];
+            let total = 0;
+            
+            itemRows.forEach(row => {
+                const name = row.querySelector('.item-name').value;
+                const qty = parseInt(row.querySelector('.item-qty').value);
+                const price = parseInt(row.querySelector('.item-price').value);
+                const itemTotal = qty * price;
+                
+                items.push({ name, qty, price, total: itemTotal });
+                total += itemTotal;
+            });
+
+            if (items.length === 0) {
+                alert('Please add at least one item!');
+                return;
+            }
 
             const newBooking = {
                 date: date,
-                name: name,
-                qty: qty,
-                price: price,
+                items: items,
                 status: status,
                 total: total,
                 timestamp: Date.now()
@@ -651,7 +795,7 @@
                 });
 
                 if (bookings.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
                     document.getElementById('totalPrice').textContent = formatRupiah(0);
                     allBookings = [];
                     return;
@@ -661,12 +805,14 @@
                 allBookings = bookings;
 
                 bookings.forEach((booking) => {
+                    const itemsList = booking.items ? booking.items.map(item => 
+                        `${item.name} (${item.qty}x ${formatRupiah(item.price)})`
+                    ).join('<br>') : '-';
+
                     const row = tableBody.insertRow();
                     row.innerHTML = `
                         <td>${booking.date}</td>
-                        <td>${booking.name}</td>
-                        <td>${booking.qty}</td>
-                        <td>${formatRupiah(booking.price)}</td>
+                        <td style="font-size: 0.9em;">${itemsList}</td>
                         <td>
                             <select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
                                 <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
@@ -674,7 +820,7 @@
                                 <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
                             </select>
                         </td>
-                        <td>${formatRupiah(booking.total)}</td>
+                        <td><strong>${formatRupiah(booking.total)}</strong></td>
                         <td><button class="btn-delete" onclick="deleteRow('${booking.id}')">Delete</button></td>
                     `;
                     total += booking.total;
@@ -690,24 +836,44 @@
                 return;
             }
 
-            const excelData = allBookings.map(booking => ({
-                'Date': booking.date,
-                'Name': booking.name,
-                'Quantity': booking.qty,
-                'Price': booking.price,
-                'Status': booking.status,
-                'Total': booking.total
-            }));
+            const excelData = [];
+            
+            allBookings.forEach(booking => {
+                if (booking.items && booking.items.length > 0) {
+                    booking.items.forEach((item, index) => {
+                        excelData.push({
+                            'Date': index === 0 ? booking.date : '',
+                            'Item Name': item.name,
+                            'Quantity': item.qty,
+                            'Price': item.price,
+                            'Item Total': item.total,
+                            'Status': index === 0 ? booking.status : '',
+                            'Booking Total': index === 0 ? booking.total : ''
+                        });
+                    });
+                } else {
+                    excelData.push({
+                        'Date': booking.date,
+                        'Item Name': '-',
+                        'Quantity': booking.qty || 0,
+                        'Price': booking.price || 0,
+                        'Item Total': booking.total,
+                        'Status': booking.status,
+                        'Booking Total': booking.total
+                    });
+                }
+            });
 
             const totalAmount = allBookings.reduce((sum, booking) => sum + booking.total, 0);
             
             excelData.push({
                 'Date': '',
-                'Name': '',
+                'Item Name': '',
                 'Quantity': '',
                 'Price': '',
-                'Status': 'TOTAL',
-                'Total': totalAmount
+                'Item Total': '',
+                'Status': 'GRAND TOTAL',
+                'Booking Total': totalAmount
             });
 
             const wb = XLSX.utils.book_new();
@@ -715,8 +881,9 @@
 
             ws['!cols'] = [
                 { wch: 12 },
-                { wch: 20 },
+                { wch: 25 },
                 { wch: 10 },
+                { wch: 15 },
                 { wch: 15 },
                 { wch: 12 },
                 { wch: 15 }
