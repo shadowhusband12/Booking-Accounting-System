@@ -774,46 +774,55 @@
         }
 
         window.addBooking = function(event) {
-            event.preventDefault();
-            
-            const date = document.getElementById('date').value;
-            const customerName = document.getElementById('customerName').value;
-            const status = document.getElementById('status').value;
-            
-            const itemRows = document.querySelectorAll('.item-row');
-            const items = [];
-            let total = 0;
-            
-            itemRows.forEach(row => {
-                const name = row.querySelector('.item-name').value;
-                const qty = parseInt(row.querySelector('.item-qty').value);
-                const price = parseInt(row.querySelector('.item-price').value);
-                const itemTotal = qty * price;
-                
-                items.push({ name, qty, price, total: itemTotal });
-                total += itemTotal;
-            });
+    event.preventDefault();
 
-            if (items.length === 0) {
-                alert('Please add at least one item!');
-                return;
-            }
+    const date = document.getElementById('date').value;
+    const customerName = document.getElementById('customerName').value;
+    const status = document.getElementById('status').value;
 
-            const coinUsed = parseInt(document.getElementById('coinUsed').value) || 0;
+    const itemRows = document.querySelectorAll('.item-row');
+    const items = [];
+    let subtotal = 0;
 
-const newBooking = {
-    date: date,
-    customerName: customerName,
-    items: items,
-    status: status,
-    total: total - coinUsed,
-    coinUsed: coinUsed,
-    timestamp: Date.now()
+    itemRows.forEach(row => {
+        const name = row.querySelector('.item-name').value;
+        const qty = parseInt(row.querySelector('.item-qty').value);
+        const price = parseInt(row.querySelector('.item-price').value);
+        const itemTotal = qty * price;
+
+        items.push({ name, qty, price, total: itemTotal });
+        subtotal += itemTotal;
+    });
+
+    if (items.length === 0) {
+        alert('Please add at least one item!');
+        return;
+    }
+
+    const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
+    const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
+    const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
+    const coinUsed = parseInt(document.getElementById('coinUsed').value) || 0;
+
+    let finalTotal = subtotal + serviceFee + shippingCost - shippingDiscount - coinUsed;
+    if (finalTotal < 0) finalTotal = 0;
+
+    const newBooking = {
+        date: date,
+        customerName: customerName,
+        items: items,
+        status: status,
+        serviceFee: serviceFee,
+        shippingCost: shippingCost,
+        shippingDiscount: shippingDiscount,
+        coinUsed: coinUsed,
+        total: finalTotal,
+        timestamp: Date.now()
+    };
+
+    push(bookingsRef, newBooking);
+    window.closeModal();
 };
-
-            push(bookingsRef, newBooking);
-            window.closeModal();
-        }
 
         window.deleteRow = function(bookingId) {
             if (confirm('Are you sure you want to delete this booking?')) {
