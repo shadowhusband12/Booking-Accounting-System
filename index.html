@@ -482,7 +482,9 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Items</th>
+                        <th>Name</th>
+                        <th>Item/Qty</th>
+                        <th>Price</th>
                         <th>Status</th>
                         <th>Total</th>
                         <th>Action</th>
@@ -493,7 +495,7 @@
                 </tbody>
                 <tfoot>
                     <tr class="total-row">
-                        <td colspan="3" style="text-align: right;">Total Price:</td>
+                        <td colspan="5" style="text-align: right;">Total Price:</td>
                         <td id="totalPrice">Rp 0</td>
                         <td></td>
                     </tr>
@@ -509,6 +511,11 @@
                     <div class="form-group">
                         <label for="date">Date:</label>
                         <input type="date" id="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerName">Name:</label>
+                        <input type="text" id="customerName" placeholder="Enter customer name" required>
                     </div>
 
                     <div class="items-container">
@@ -735,6 +742,7 @@
             event.preventDefault();
             
             const date = document.getElementById('date').value;
+            const customerName = document.getElementById('customerName').value;
             const status = document.getElementById('status').value;
             
             const itemRows = document.querySelectorAll('.item-row');
@@ -758,6 +766,7 @@
 
             const newBooking = {
                 date: date,
+                customerName: customerName,
                 items: items,
                 status: status,
                 total: total,
@@ -795,7 +804,7 @@
                 });
 
                 if (bookings.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
                     document.getElementById('totalPrice').textContent = formatRupiah(0);
                     allBookings = [];
                     return;
@@ -805,24 +814,43 @@
                 allBookings = bookings;
 
                 bookings.forEach((booking) => {
-                    const itemsList = booking.items ? booking.items.map(item => 
-                        `${item.name} (${item.qty}x ${formatRupiah(item.price)})`
-                    ).join('<br>') : '-';
-
-                    const row = tableBody.insertRow();
-                    row.innerHTML = `
-                        <td>${booking.date}</td>
-                        <td style="font-size: 0.9em;">${itemsList}</td>
-                        <td>
-                            <select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
-                                <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                                <option value="Paid" ${booking.status === 'Paid' ? 'selected' : ''}>Paid</option>
-                                <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-                            </select>
-                        </td>
-                        <td><strong>${formatRupiah(booking.total)}</strong></td>
-                        <td><button class="btn-delete" onclick="deleteRow('${booking.id}')">Delete</button></td>
-                    `;
+                    if (booking.items && booking.items.length > 0) {
+                        booking.items.forEach((item, index) => {
+                            const row = tableBody.insertRow();
+                            row.innerHTML = `
+                                <td>${index === 0 ? booking.date : ''}</td>
+                                <td>${index === 0 ? booking.customerName || booking.name || '-' : ''}</td>
+                                <td>${item.name} (${item.qty})</td>
+                                <td>${formatRupiah(item.price)}</td>
+                                <td>
+                                    ${index === 0 ? `<select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
+                                        <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                        <option value="Paid" ${booking.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                                        <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                    </select>` : ''}
+                                </td>
+                                <td>${index === 0 ? '<strong>' + formatRupiah(booking.total) + '</strong>' : ''}</td>
+                                <td>${index === 0 ? `<button class="btn-delete" onclick="deleteRow('${booking.id}')">Delete</button>` : ''}</td>
+                            `;
+                        });
+                    } else {
+                        const row = tableBody.insertRow();
+                        row.innerHTML = `
+                            <td>${booking.date}</td>
+                            <td>${booking.name || '-'}</td>
+                            <td>-</td>
+                            <td>${formatRupiah(booking.price || 0)}</td>
+                            <td>
+                                <select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
+                                    <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="Paid" ${booking.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                                    <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                </select>
+                            </td>
+                            <td><strong>${formatRupiah(booking.total)}</strong></td>
+                            <td><button class="btn-delete" onclick="deleteRow('${booking.id}')">Delete</button></td>
+                        `;
+                    }
                     total += booking.total;
                 });
 
@@ -843,23 +871,23 @@
                     booking.items.forEach((item, index) => {
                         excelData.push({
                             'Date': index === 0 ? booking.date : '',
-                            'Item Name': item.name,
+                            'Name': index === 0 ? (booking.customerName || booking.name || '-') : '',
+                            'Item': item.name,
                             'Quantity': item.qty,
                             'Price': item.price,
-                            'Item Total': item.total,
                             'Status': index === 0 ? booking.status : '',
-                            'Booking Total': index === 0 ? booking.total : ''
+                            'Total': index === 0 ? booking.total : ''
                         });
                     });
                 } else {
                     excelData.push({
                         'Date': booking.date,
-                        'Item Name': '-',
+                        'Name': booking.name || '-',
+                        'Item': '-',
                         'Quantity': booking.qty || 0,
                         'Price': booking.price || 0,
-                        'Item Total': booking.total,
                         'Status': booking.status,
-                        'Booking Total': booking.total
+                        'Total': booking.total
                     });
                 }
             });
@@ -868,12 +896,12 @@
             
             excelData.push({
                 'Date': '',
-                'Item Name': '',
+                'Name': '',
+                'Item': '',
                 'Quantity': '',
                 'Price': '',
-                'Item Total': '',
                 'Status': 'GRAND TOTAL',
-                'Booking Total': totalAmount
+                'Total': totalAmount
             });
 
             const wb = XLSX.utils.book_new();
