@@ -34,6 +34,13 @@
             font-size: 2.5em;
         }
 
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
         .btn-add {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -43,13 +50,29 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            margin-bottom: 20px;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .btn-add:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-export {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
         }
 
         table {
@@ -189,7 +212,10 @@
     <div class="container">
         <h1>📊 Booking Accounting System</h1>
         
-        <button class="btn-add" onclick="openModal()">+ Add New Booking</button>
+        <div class="btn-container">
+            <button class="btn-add" onclick="openModal()">+ Add New Booking</button>
+            <button class="btn-export" onclick="exportToExcel()">📥 Export to Excel</button>
+        </div>
         
         <table id="bookingTable">
             <thead>
@@ -254,10 +280,13 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
         import { getDatabase, ref, onValue, push, remove, update } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-database.js";
 
+        // Import SheetJS from CDN
+        const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.1/package/xlsx.mjs');
+
         const firebaseConfig = {
             apiKey: "AIzaSyDT9Y-U1vauIffDYF2iQLIH1--6CdELu44",
             authDomain: "booking-accounting-data.firebaseapp.com",
-            databaseURL: "https://booking-accounting-data-default-rtdb.firebaseio.com",
+            databaseURL: "https://booking-accounting-data-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "booking-accounting-data",
             storageBucket: "booking-accounting-data.firebasestorage.app",
             messagingSenderId: "881001096637",
@@ -268,6 +297,9 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
         const bookingsRef = ref(database, 'bookings');
+
+        // Store bookings globally for export
+        let allBookings = [];
 
         // Show loading message
         const tableBody = document.getElementById('tableBody');
@@ -339,10 +371,12 @@
                 if (bookings.length === 0) {
                     tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
                     document.getElementById('totalPrice').textContent = formatRupiah(0);
+                    allBookings = [];
                     return;
                 }
 
                 bookings.sort((a, b) => a.timestamp - b.timestamp);
+                allBookings = bookings; // Store for export
 
                 bookings.forEach((booking) => {
                     const row = tableBody.insertRow();
@@ -398,6 +432,57 @@
             if (event.target == modal) {
                 window.closeModal();
             }
+        }
+
+        window.exportToExcel = function() {
+            if (allBookings.length === 0) {
+                alert('No data to export. Please add bookings first.');
+                return;
+            }
+
+            // Prepare data for Excel
+            const excelData = allBookings.map(booking => ({
+                'Date': booking.date,
+                'Name': booking.name,
+                'Quantity': booking.qty,
+                'Price': booking.price,
+                'Status': booking.status,
+                'Total': booking.total
+            }));
+
+            // Calculate total
+            const totalAmount = allBookings.reduce((sum, booking) => sum + booking.total, 0);
+            
+            // Add total row
+            excelData.push({
+                'Date': '',
+                'Name': '',
+                'Quantity': '',
+                'Price': '',
+                'Status': 'TOTAL',
+                'Total': totalAmount
+            });
+
+            // Create workbook and worksheet
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(excelData);
+
+            // Set column widths
+            ws['!cols'] = [
+                { wch: 12 },  // Date
+                { wch: 20 },  // Name
+                { wch: 10 },  // Quantity
+                { wch: 15 },  // Price
+                { wch: 12 },  // Status
+                { wch: 15 }   // Total
+            ];
+
+            // Add worksheet to workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'Bookings');
+
+            // Generate Excel file
+            const today = new Date().toISOString().split('T')[0];
+            XLSX.writeFile(wb, `Booking_Report_${today}.xlsx`);
         }
 
         loadBookings();
