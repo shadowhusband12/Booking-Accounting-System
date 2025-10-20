@@ -269,6 +269,10 @@
         const database = getDatabase(app);
         const bookingsRef = ref(database, 'bookings');
 
+        // Show loading message
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Loading data from Firebase...</td></tr>';
+
         function formatRupiah(amount) {
             return 'Rp ' + amount.toLocaleString('id-ID');
         }
@@ -332,6 +336,12 @@
                     });
                 });
 
+                if (bookings.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
+                    document.getElementById('totalPrice').textContent = formatRupiah(0);
+                    return;
+                }
+
                 bookings.sort((a, b) => a.timestamp - b.timestamp);
 
                 bookings.forEach((booking) => {
@@ -355,6 +365,31 @@
                 });
 
                 document.getElementById('totalPrice').textContent = formatRupiah(total);
+            }, (error) => {
+                console.error('Firebase error:', error);
+                const tableBody = document.getElementById('tableBody');
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 20px; color: #ff4757;">
+                            <strong>⚠️ Firebase Connection Error</strong><br><br>
+                            Please configure Firebase Realtime Database:<br>
+                            1. Go to <a href="https://console.firebase.google.com/project/booking-accounting-data/database" target="_blank" style="color: #667eea;">Firebase Console</a><br>
+                            2. Click "Realtime Database" → "Create Database"<br>
+                            3. Choose location and start in <strong>test mode</strong><br>
+                            4. Go to "Rules" tab and paste this:<br><br>
+                            <code style="background: #f5f5f5; padding: 10px; display: block; text-align: left; max-width: 400px; margin: 10px auto;">
+                            {<br>
+                            &nbsp;&nbsp;"rules": {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;".read": true,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;".write": true<br>
+                            &nbsp;&nbsp;}<br>
+                            }
+                            </code>
+                            5. Click "Publish"<br><br>
+                            Then refresh this page.
+                        </td>
+                    </tr>
+                `;
             });
         }
 
