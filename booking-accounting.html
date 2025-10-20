@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Accounting System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .status-select {
+            padding: 5px 10px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .btn-delete {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: #ff3838;
+        }
+
+        .total-row {
+            background: #f8f9fa;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .total-row td {
+            padding: 20px 15px;
+            border-top: 3px solid #667eea;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Booking Accounting System</h1>
+        
+        <button class="btn-add" onclick="openModal()">+ Add New Booking</button>
+        
+        <table id="bookingTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr>
+                    <td>2025-01-15</td>
+                    <td>John Doe</td>
+                    <td>5</td>
+                    <td>Rp 50,000</td>
+                    <td>
+                        <select class="status-select" onchange="updateTotal()">
+                            <option value="Pending">Pending</option>
+                            <option value="Paid" selected>Paid</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </td>
+                    <td>Rp 250,000</td>
+                    <td><button class="btn-delete" onclick="deleteRow(this)">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>2025-01-16</td>
+                    <td>Jane Smith</td>
+                    <td>3</td>
+                    <td>Rp 75,000</td>
+                    <td>
+                        <select class="status-select" onchange="updateTotal()">
+                            <option value="Pending" selected>Pending</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </td>
+                    <td>Rp 225,000</td>
+                    <td><button class="btn-delete" onclick="deleteRow(this)">Delete</button></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="5" style="text-align: right;">Total Price:</td>
+                    <td id="totalPrice">Rp 475,000</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="color: #667eea; margin-bottom: 20px;">Add New Booking</h2>
+            <form id="bookingForm" onsubmit="addBooking(event)">
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="qty">Quantity:</label>
+                    <input type="number" id="qty" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price (Rp):</label>
+                    <input type="number" id="price" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Paid">Paid</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">Add Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function formatRupiah(amount) {
+            return 'Rp ' + amount.toLocaleString('id-ID');
+        }
+
+        function openModal() {
+            document.getElementById('myModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+            document.getElementById('bookingForm').reset();
+        }
+
+        function addBooking(event) {
+            event.preventDefault();
+            
+            const date = document.getElementById('date').value;
+            const name = document.getElementById('name').value;
+            const qty = parseInt(document.getElementById('qty').value);
+            const price = parseInt(document.getElementById('price').value);
+            const status = document.getElementById('status').value;
+            const total = qty * price;
+
+            const tableBody = document.getElementById('tableBody');
+            const newRow = tableBody.insertRow();
+
+            newRow.innerHTML = `
+                <td>${date}</td>
+                <td>${name}</td>
+                <td>${qty}</td>
+                <td>${formatRupiah(price)}</td>
+                <td>
+                    <select class="status-select" onchange="updateTotal()">
+                        <option value="Pending" ${status === 'Pending' ? 'selected' : ''}>Pending</option>
+                        <option value="Paid" ${status === 'Paid' ? 'selected' : ''}>Paid</option>
+                        <option value="Cancelled" ${status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                    </select>
+                </td>
+                <td>${formatRupiah(total)}</td>
+                <td><button class="btn-delete" onclick="deleteRow(this)">Delete</button></td>
+            `;
+
+            updateTotal();
+            closeModal();
+        }
+
+        function deleteRow(btn) {
+            const row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const tableBody = document.getElementById('tableBody');
+            const rows = tableBody.getElementsByTagName('tr');
+            let total = 0;
+
+            for (let i = 0; i < rows.length; i++) {
+                const totalCell = rows[i].cells[5].textContent;
+                const amount = parseInt(totalCell.replace(/[^0-9]/g, ''));
+                total += amount;
+            }
+
+            document.getElementById('totalPrice').textContent = formatRupiah(total);
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('myModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        updateTotal();
+    </script>
+</body>
+</html>
