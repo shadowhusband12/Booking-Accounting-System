@@ -566,6 +566,12 @@
   <small style="color: #888;">Voucher akan mengurangi total harga akhir</small>
 </div>
 
+<div class="form-group">
+  <label for="protectionFee">Proteksi:</label>
+  <input type="number" id="protectionFee" min="0" value="0" oninput="calculateTotal()">
+  <small style="color: #888;">Proteksi akan menambah total harga akhir</small>
+</div>
+
                     <div class="item-total" style="font-size: 1.2em; margin-top: 15px;">
     Total Keseluruhan: <span id="modalTotal">Rp 0</span>
 </div>
@@ -765,16 +771,17 @@
     const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
     const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
     const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
-const coinUsed = parseInt(document.getElementById('coinUsed')?.value) || 0;
-const voucherStore = parseInt(document.getElementById('voucherStore')?.value) || 0;
+    const coinUsed = parseInt(document.getElementById('coinUsed')?.value) || 0;
+    const voucherStore = parseInt(document.getElementById('voucherStore')?.value) || 0;
+    const protectionFee = parseInt(document.getElementById('protectionFee')?.value) || 0;
 
-let total = subtotal + serviceFee + shippingCost - shippingDiscount - coinUsed - voucherStore;
-if (total < 0) total = 0;
+    let total = subtotal + serviceFee + shippingCost + protectionFee - shippingDiscount - coinUsed - voucherStore;
+    if (total < 0) total = 0;
 
-document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
-document.getElementById('modalTotal').textContent = formatRupiah(total);
-
+    document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
+    document.getElementById('modalTotal').textContent = formatRupiah(total);
 }
+
 
 
         window.openModal = function() {
@@ -820,9 +827,10 @@ document.getElementById('modalTotal').textContent = formatRupiah(total);
     const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
     const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
     const coinUsed = parseInt(document.getElementById('coinUsed').value) || 0;
+const protectionFee = parseInt(document.getElementById('protectionFee').value) || 0;
 const voucherStore = parseInt(document.getElementById('voucherStore').value) || 0;
 
-let finalTotal = subtotal + serviceFee + shippingCost - shippingDiscount - coinUsed - voucherStore;
+let finalTotal = subtotal + serviceFee + shippingCost + protectionFee - shippingDiscount - coinUsed - voucherStore;
 if (finalTotal < 0) finalTotal = 0;
 
 const newBooking = {
@@ -835,6 +843,7 @@ const newBooking = {
     shippingDiscount: shippingDiscount,
     coinUsed: coinUsed,
     voucherStore: voucherStore,
+    protectionFee: protectionFee,
     total: finalTotal,
     timestamp: Date.now()
 };
