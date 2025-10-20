@@ -560,6 +560,12 @@
     <small style="color: #888;">Coin akan mengurangi total harga akhir</small>
 </div>
 
+<div class="form-group">
+  <label for="voucherStore">Voucher Toko:</label>
+  <input type="number" id="voucherStore" min="0" value="0" oninput="calculateTotal()">
+  <small style="color: #888;">Voucher akan mengurangi total harga akhir</small>
+</div>
+
                     <div class="item-total" style="font-size: 1.2em; margin-top: 15px;">
     Total Keseluruhan: <span id="modalTotal">Rp 0</span>
 </div>
@@ -759,13 +765,15 @@
     const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
     const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
     const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
-    const coinUsed = parseInt(document.getElementById('coinUsed')?.value) || 0;
+const coinUsed = parseInt(document.getElementById('coinUsed')?.value) || 0;
+const voucherStore = parseInt(document.getElementById('voucherStore')?.value) || 0;
 
-    let total = subtotal + serviceFee + shippingCost - shippingDiscount - coinUsed;
-    if (total < 0) total = 0;
+let total = subtotal + serviceFee + shippingCost - shippingDiscount - coinUsed - voucherStore;
+if (total < 0) total = 0;
 
-    document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
-    document.getElementById('modalTotal').textContent = formatRupiah(total);
+document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
+document.getElementById('modalTotal').textContent = formatRupiah(total);
+
 }
 
 
@@ -812,22 +820,24 @@
     const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
     const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
     const coinUsed = parseInt(document.getElementById('coinUsed').value) || 0;
+const voucherStore = parseInt(document.getElementById('voucherStore').value) || 0;
 
-    let finalTotal = subtotal + serviceFee + shippingCost - shippingDiscount - coinUsed;
-    if (finalTotal < 0) finalTotal = 0;
+let finalTotal = subtotal + serviceFee + shippingCost - shippingDiscount - coinUsed - voucherStore;
+if (finalTotal < 0) finalTotal = 0;
 
-    const newBooking = {
-        date: date,
-        customerName: customerName,
-        items: items,
-        status: status,
-        serviceFee: serviceFee,
-        shippingCost: shippingCost,
-        shippingDiscount: shippingDiscount,
-        coinUsed: coinUsed,
-        total: finalTotal,
-        timestamp: Date.now()
-    };
+const newBooking = {
+    date: date,
+    customerName: customerName,
+    items: items,
+    status: status,
+    serviceFee: serviceFee,
+    shippingCost: shippingCost,
+    shippingDiscount: shippingDiscount,
+    coinUsed: coinUsed,
+    voucherStore: voucherStore,
+    total: finalTotal,
+    timestamp: Date.now()
+};
 
     push(bookingsRef, newBooking);
     window.closeModal();
