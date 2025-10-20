@@ -200,10 +200,25 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.2s;
+            margin-right: 5px;
         }
 
         .btn-delete:hover {
             background: #ff3838;
+        }
+
+        .btn-edit {
+            background: #ffa502;
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-edit:hover {
+            background: #ff8c00;
         }
 
         .total-row {
@@ -962,8 +977,12 @@
 
             ws['!cols'] = [
                 { wch: 12 },
+                { wch: 20 },
                 { wch: 25 },
                 { wch: 10 },
+                { wch: 15 },
+                { wch: 15 },
+                { wch: 15 },
                 { wch: 15 },
                 { wch: 15 },
                 { wch: 12 },
