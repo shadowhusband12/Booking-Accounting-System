@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Booking Accounting System</title>
     <style>
         * {
@@ -13,48 +13,49 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7b8cde 0%, #8e7cc3 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
             padding: 30px;
         }
 
         .auth-container {
             max-width: 400px;
-            margin: 100px auto;
+            margin: 50px auto;
             background: white;
             border-radius: 15px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
+            padding: 30px 20px;
         }
 
         .auth-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .auth-header h1 {
             color: #667eea;
-            font-size: 2em;
+            font-size: 1.8em;
             margin-bottom: 10px;
         }
 
         .auth-header p {
             color: #999;
+            font-size: 0.9em;
         }
 
         .tab-buttons {
             display: flex;
             gap: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .tab-btn {
@@ -67,6 +68,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
+            font-size: 14px;
         }
 
         .tab-btn.active {
@@ -83,10 +85,15 @@
         }
 
         h1 {
-            color: #667eea;
-            margin-bottom: 20px;
+            color: #7b8cde;
+            margin-bottom: 25px;
             text-align: center;
-            font-size: 2.5em;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+
+        h1:before {
+            content: '📊 ';
         }
 
         .user-info {
@@ -94,25 +101,40 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
+            padding: 0;
+            background: transparent;
+            border-radius: 0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .user-email {
-            color: #667eea;
-            font-weight: bold;
+            color: #7b8cde;
+            font-weight: 600;
+            font-size: 0.95em;
+            word-break: break-all;
+        }
+
+        .user-email:before {
+            content: '👤 ';
         }
 
         .btn-logout {
-            background: #ff4757;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
+            padding: 10px 30px;
+            border-radius: 25px;
             cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
 
         .btn-logout:hover {
@@ -121,38 +143,50 @@
 
         .btn-container {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        .btn-add {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .btn-add, .btn-export {
+            flex: 1;
+            min-width: 200px;
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
+            padding: 16px 30px;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #7b8cde 0%, #8e7cc3 100%);
+            box-shadow: 0 4px 15px rgba(123, 140, 222, 0.3);
+        }
+
+        .btn-add:before {
+            content: '+ ';
         }
 
         .btn-add:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(123, 140, 222, 0.4);
         }
 
         .btn-export {
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+            box-shadow: 0 4px 15px rgba(81, 207, 102, 0.3);
+        }
+
+        .btn-export:before {
+            content: '📥 ';
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(81, 207, 102, 0.4);
         }
 
         .btn-export:hover {
@@ -160,91 +194,183 @@
             box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
         }
 
+        /* Mobile Table Styles */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 15px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            min-width: 600px;
         }
 
         th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #7b8cde 0%, #8e7cc3 100%);
             color: white;
-            padding: 15px;
+            padding: 15px 12px;
             text-align: left;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
+            padding: 18px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            vertical-align: middle;
+            background: white;
+        }
+
+        tr:nth-child(even) td {
+            background: #fafbfc;
         }
 
         tr:hover {
-            background-color: #f5f5f5;
+            background-color: transparent;
+        }
+
+        tr:hover td {
+            background-color: #f0f4ff;
+        }
+
+        tr.clickable-row {
+            cursor: pointer;
+        }
+
+        tr.clickable-row:hover td {
+            background-color: #f0f4ff !important;
         }
 
         .status-select {
-            padding: 5px 10px;
-            border: 2px solid #667eea;
-            border-radius: 5px;
+            padding: 8px 12px;
+            border: 2px solid #7b8cde;
+            border-radius: 8px;
             background: white;
-            color: #667eea;
-            font-weight: bold;
+            color: #7b8cde;
+            font-weight: 600;
+            font-size: 13px;
+            width: auto;
+            min-width: 100px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #6c7ecf;
+            box-shadow: 0 0 0 3px rgba(123, 140, 222, 0.1);
+        }
+
+        .status-select:hover {
+            border-color: #6c7ecf;
+        }
+
+        .btn-delete, .btn-view, .btn-edit {
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 3px;
+            min-width: 75px;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .btn-delete {
-            background: #ff4757;
-            color: white;
-            border: none;
-            padding: 6px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
         }
 
         .btn-delete:hover {
-            background: #ff3838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #7b8cde 0%, #6c7ecf 100%);
+        }
+
+        .btn-view:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(123, 140, 222, 0.3);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #ffa502 0%, #ff8c00 100%);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 165, 2, 0.3);
         }
 
         .total-row {
             background: #f8f9fa;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
 
         .total-row td {
-            padding: 20px 15px;
+            padding: 15px 8px;
             border-top: 3px solid #667eea;
         }
 
         .modal {
             display: none;
             position: fixed;
-            z-index: 1;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.5);
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .modal-content {
             background-color: white;
-            margin: 5% auto;
-            padding: 30px;
+            margin: 20px auto;
+            padding: 20px;
             border-radius: 15px;
-            width: 90%;
-            max-width: 700px;
+            width: 95%;
+            max-width: 600px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .modal-header h2 {
+            color: #667eea;
+            margin: 0;
+            font-size: 1.3em;
         }
 
         .close {
             color: #aaa;
-            float: right;
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
+            line-height: 20px;
         }
 
         .close:hover {
@@ -252,7 +378,7 @@
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
@@ -260,6 +386,7 @@
             margin-bottom: 5px;
             color: #667eea;
             font-weight: bold;
+            font-size: 14px;
         }
 
         .form-group input, .form-group select {
@@ -276,7 +403,13 @@
             border-color: #667eea;
         }
 
-        .btn-submit {
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        .btn-submit, .btn-edit {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
@@ -289,7 +422,7 @@
             transition: transform 0.2s;
         }
 
-        .btn-submit:hover {
+        .btn-submit:hover, .btn-edit:hover {
             transform: translateY(-2px);
         }
 
@@ -301,6 +434,7 @@
             margin-bottom: 15px;
             text-align: center;
             display: none;
+            font-size: 14px;
         }
 
         .success-message {
@@ -311,6 +445,7 @@
             margin-bottom: 15px;
             text-align: center;
             display: none;
+            font-size: 14px;
         }
 
         #authSection {
@@ -321,12 +456,77 @@
             display: none;
         }
 
+        /* Preview Modal Styles */
+        .preview-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .preview-section h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .preview-row:last-child {
+            border-bottom: none;
+        }
+
+        .preview-label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .preview-value {
+            color: #333;
+            text-align: right;
+        }
+
+        .preview-items {
+            margin-top: 10px;
+        }
+
+        .preview-item {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .preview-item-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            flex: 1;
+            padding: 12px 20px;
+            font-size: 15px;
+        }
+
         /* Multiple Items Styles */
         .items-container {
             border: 2px solid #667eea;
             border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
             background: #f8f9fa;
         }
 
@@ -340,6 +540,7 @@
         .items-header h3 {
             color: #667eea;
             margin: 0;
+            font-size: 16px;
         }
 
         .btn-add-item {
@@ -349,7 +550,7 @@
             padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             transition: background 0.2s;
         }
@@ -359,15 +560,17 @@
         }
 
         .item-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            gap: 10px;
-            margin-bottom: 10px;
-            align-items: end;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
         }
 
         .item-row input {
-            padding: 8px;
+            padding: 10px;
             border: 2px solid #ddd;
             border-radius: 5px;
             font-size: 14px;
@@ -382,23 +585,15 @@
             background: #ff4757;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            height: 36px;
         }
 
         .btn-remove-item:hover {
             background: #ff3838;
         }
-
-        .coinUsed {
-    border-color: #667eea;
-}
-.coinUsed:focus {
-    border-color: #764ba2;
-}
 
         .item-total {
             text-align: right;
@@ -410,14 +605,73 @@
             border-top: 2px solid #667eea;
         }
 
-        .store-info {
-            margin-bottom: 20px;
+        /* Tablet Styles */
+        @media (min-width: 600px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .item-row {
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr auto;
+                gap: 10px;
+                align-items: center;
+                padding: 0;
+                background: transparent;
+            }
+
+            .btn-remove-item {
+                height: 42px;
+            }
+
+            .modal-content {
+                padding: 30px;
+            }
         }
 
-        @media (max-width: 768px) {
-            .item-row {
-                grid-template-columns: 1fr;
+        /* Desktop Styles */
+        @media (min-width: 1024px) {
+            body {
+                padding: 20px;
             }
+
+            .container {
+                padding: 40px;
+            }
+
+            h1 {
+                font-size: 2.8em;
+            }
+
+            table {
+                min-width: 100%;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 15px 12px;
+            }
+
+            .modal-content {
+                margin: 5% auto;
+                width: 90%;
+                max-width: 700px;
+            }
+
+            .btn-delete, .btn-view, .btn-edit {
+                min-width: 80px;
+                font-size: 14px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        button, select, input[type="button"] {
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+            touch-action: manipulation;
         }
     </style>
 </head>
@@ -426,7 +680,7 @@
     <div id="authSection">
         <div class="auth-container">
             <div class="auth-header">
-                <h1>📊 Booking System</h1>
+                <h1>Booking System</h1>
                 <p>Please login to continue</p>
             </div>
 
@@ -473,49 +727,56 @@
     <!-- Main App Section -->
     <div id="mainApp">
         <div class="container">
-            <h1>📊 Booking Accounting System</h1>
+            <h1>📊 Booking System</h1>
             
             <div class="user-info">
-                <span class="user-email">👤 <span id="userEmail"></span></span>
+                <span class="user-email"><span id="userEmail"></span></span>
                 <button class="btn-logout" onclick="handleLogout()">Logout</button>
             </div>
 
             <div class="btn-container">
-                <button class="btn-add" onclick="openModal()">+ Add New Booking</button>
-                <button class="btn-export" onclick="exportToExcel()">📥 Export to Excel</button>
+                <button class="btn-add" onclick="openModal()">Add Booking</button>
+                <button class="btn-export" onclick="exportToExcel()">Export Excel</button>
             </div>
             
-            <table id="bookingTable">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Name</th>
-                        <th>Item</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <tr><td colspan="6" style="text-align: center; padding: 20px;">Loading data...</td></tr>
-                </tbody>
-                <tfoot>
-                    <tr class="total-row">
-                        <td colspan="6" style="text-align: right;">Total Price:</td>
-                        <td id="totalPrice">Rp 0</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
+            <div class="table-container">
+                <table id="bookingTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr><td colspan="8" style="text-align: center; padding: 20px;">Loading data...</td></tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="6" style="text-align: right;">Total Price:</td>
+                            <td id="totalPrice">Rp 0</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
 
+        <!-- Add/Edit Modal -->
         <div id="myModal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2 style="color: #667eea; margin-bottom: 20px;">Add New Booking</h2>
-                <form id="bookingForm" onsubmit="addBooking(event)">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add New Booking</h2>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+                <form id="bookingForm" onsubmit="saveBooking(event)">
+                    <input type="hidden" id="editBookingId">
+                    
                     <div class="form-group">
                         <label for="date">Date:</label>
                         <input type="date" id="date" required>
@@ -529,13 +790,13 @@
                     <div class="items-container">
                         <div class="items-header">
                             <h3>Items</h3>
-                            <button type="button" class="btn-add-item" onclick="addItemRow()">+ Add Item</button>
+                            <button type="button" class="btn-add-item" onclick="addItemRow()">+ Item</button>
                         </div>
                         <div id="itemsContainer">
                             <!-- Item rows will be added here -->
                         </div>
                         <div class="item-total">
-                            Subtotal Items: <span id="modalSubtotal">Rp 0</span>
+                            Subtotal: <span id="modalSubtotal">Rp 0</span>
                         </div>
                     </div>
 
@@ -554,34 +815,33 @@
                         <input type="number" id="shippingDiscount" min="0" value="0" oninput="calculateTotal()">
                     </div>
 
-<div class="form-group">
-    <label for="coinUsed">Coin Digunakan:</label>
-    <input type="number" id="coinUsed" min="0" value="0" oninput="calculateTotal()">
-    <small style="color: #888;">Coin akan mengurangi total harga akhir</small>
-</div>
+                    <div class="form-group">
+                        <label for="coinUsed">Coin Digunakan:</label>
+                        <input type="number" id="coinUsed" min="0" value="0" oninput="calculateTotal()">
+                        <small style="color: #888;">Coin akan mengurangi total harga akhir</small>
+                    </div>
 
-<div class="form-group">
-  <label for="voucherStore">Voucher Toko:</label>
-  <input type="number" id="voucherStore" min="0" value="0" oninput="calculateTotal()">
-  <small style="color: #888;">Voucher akan mengurangi total harga akhir</small>
-</div>
+                    <div class="form-group">
+                        <label for="voucherStore">Voucher Toko:</label>
+                        <input type="number" id="voucherStore" min="0" value="0" oninput="calculateTotal()">
+                        <small style="color: #888;">Voucher akan mengurangi total harga akhir</small>
+                    </div>
 
-<div class="form-group">
-  <label for="voucherShopee">Voucher Shopee:</label>
-  <input type="number" id="voucherShopee" min="0" value="0" oninput="calculateTotal()">
-  <small style="color: #888;">Voucher Shopee akan mengurangi total harga akhir</small>
-</div>
+                    <div class="form-group">
+                        <label for="voucherShopee">Voucher Shopee:</label>
+                        <input type="number" id="voucherShopee" min="0" value="0" oninput="calculateTotal()">
+                        <small style="color: #888;">Voucher Shopee akan mengurangi total harga akhir</small>
+                    </div>
 
-<div class="form-group">
-  <label for="protectionFee">Proteksi:</label>
-  <input type="number" id="protectionFee" min="0" value="0" oninput="calculateTotal()">
-  <small style="color: #888;">Proteksi akan menambah total harga akhir</small>
-</div>
+                    <div class="form-group">
+                        <label for="protectionFee">Proteksi:</label>
+                        <input type="number" id="protectionFee" min="0" value="0" oninput="calculateTotal()">
+                        <small style="color: #888;">Proteksi akan menambah total harga akhir</small>
+                    </div>
 
                     <div class="item-total" style="font-size: 1.2em; margin-top: 15px;">
-    Total Keseluruhan: <span id="modalTotal">Rp 0</span>
-</div>
-
+                        Total Keseluruhan: <span id="modalTotal">Rp 0</span>
+                    </div>
 
                     <div class="form-group">
                         <label for="status">Status:</label>
@@ -591,8 +851,36 @@
                             <option value="Cancelled">Cancelled</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn-submit">Save Booking</button>
+                    <button type="submit" class="btn-submit" id="submitBtn">Save Booking</button>
                 </form>
+            </div>
+        </div>
+
+        <!-- Preview/Edit Modal -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="previewTitle">Booking Details</h2>
+                    <span class="close" onclick="closePreviewModal()">&times;</span>
+                </div>
+                
+                <div id="previewContent">
+                    <!-- Preview content will be injected here -->
+                </div>
+
+                <div id="editContent" style="display: none;">
+                    <!-- Edit form will be injected here -->
+                </div>
+
+                <div class="modal-buttons" id="previewButtons">
+                    <button class="btn-edit" onclick="toggleEditMode()">✏️ Edit</button>
+                    <button class="btn-delete" onclick="deleteFromPreview()">🗑️ Delete</button>
+                </div>
+
+                <div class="modal-buttons" id="editButtons" style="display: none;">
+                    <button class="btn-submit" onclick="saveEditedBooking()">💾 Save</button>
+                    <button class="btn-logout" onclick="cancelEdit()" style="width: 100%;">❌ Cancel</button>
+                </div>
             </div>
         </div>
     </div>
@@ -622,6 +910,7 @@
 
         let allBookings = [];
         let itemCounter = 0;
+        let currentPreviewBooking = null;
 
         window.showTab = function(tab) {
             const loginForm = document.getElementById('loginForm');
@@ -749,7 +1038,7 @@
                 <input type="text" placeholder="Item name" class="item-name" required>
                 <input type="number" placeholder="Qty" min="1" class="item-qty" required oninput="calculateTotal()">
                 <input type="number" placeholder="Price" min="0" class="item-price" required oninput="calculateTotal()">
-                <button type="button" class="btn-remove-item" onclick="removeItemRow(${itemId})">×</button>
+                <button type="button" class="btn-remove-item" onclick="removeItemRow(${itemId})">Remove</button>
             `;
             
             itemsContainer.appendChild(itemRow);
@@ -765,105 +1054,443 @@
         }
 
         window.calculateTotal = function() {
-    const itemRows = document.querySelectorAll('.item-row');
-    let subtotal = 0;
+            const itemRows = document.querySelectorAll('.item-row');
+            let subtotal = 0;
 
-    itemRows.forEach(row => {
-        const qty = parseInt(row.querySelector('.item-qty').value) || 0;
-        const price = parseInt(row.querySelector('.item-price').value) || 0;
-        subtotal += qty * price;
-    });
+            itemRows.forEach(row => {
+                const qty = parseInt(row.querySelector('.item-qty').value) || 0;
+                const price = parseInt(row.querySelector('.item-price').value) || 0;
+                subtotal += qty * price;
+            });
 
-    const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
-    const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
-    const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
-    const coinUsed = parseInt(document.getElementById('coinUsed')?.value) || 0;
-    const voucherStore = parseInt(document.getElementById('voucherStore')?.value) || 0;
-    const voucherShopee = parseInt(document.getElementById('voucherShopee')?.value) || 0;
-    const protectionFee = parseInt(document.getElementById('protectionFee')?.value) || 0;
+            const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
+            const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
+            const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
+            const coinUsed = parseInt(document.getElementById('coinUsed')?.value) || 0;
+            const voucherStore = parseInt(document.getElementById('voucherStore')?.value) || 0;
+            const voucherShopee = parseInt(document.getElementById('voucherShopee')?.value) || 0;
+            const protectionFee = parseInt(document.getElementById('protectionFee')?.value) || 0;
 
-    let total = subtotal + serviceFee + shippingCost + protectionFee 
-                - shippingDiscount - coinUsed - voucherStore - voucherShopee;
+            let total = subtotal + serviceFee + shippingCost + protectionFee 
+                        - shippingDiscount - coinUsed - voucherStore - voucherShopee;
 
-    if (total < 0) total = 0;
+            if (total < 0) total = 0;
 
-    document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
-    document.getElementById('modalTotal').textContent = formatRupiah(total);
-}
-
-
-
+            document.getElementById('modalSubtotal').textContent = formatRupiah(subtotal);
+            document.getElementById('modalTotal').textContent = formatRupiah(total);
+        }
 
         window.openModal = function() {
+            document.getElementById('editBookingId').value = '';
+            document.getElementById('modalTitle').textContent = 'Add New Booking';
+            document.getElementById('submitBtn').textContent = 'Save Booking';
             document.getElementById('myModal').style.display = 'block';
             document.getElementById('itemsContainer').innerHTML = '';
             itemCounter = 0;
             addItemRow();
+            document.body.style.overflow = 'hidden';
         }
 
         window.closeModal = function() {
             document.getElementById('myModal').style.display = 'none';
             document.getElementById('bookingForm').reset();
             document.getElementById('itemsContainer').innerHTML = '';
+            document.body.style.overflow = 'auto';
         }
 
-        window.addBooking = function(event) {
-    event.preventDefault();
+        window.saveBooking = function(event) {
+            event.preventDefault();
 
-    const date = document.getElementById('date').value;
-    const customerName = document.getElementById('customerName').value;
-    const status = document.getElementById('status').value;
+            const bookingId = document.getElementById('editBookingId').value;
+            const date = document.getElementById('date').value;
+            const customerName = document.getElementById('customerName').value;
+            const status = document.getElementById('status').value;
 
-    const itemRows = document.querySelectorAll('.item-row');
-    const items = [];
-    let subtotal = 0;
+            const itemRows = document.querySelectorAll('.item-row');
+            const items = [];
+            let subtotal = 0;
 
-    itemRows.forEach(row => {
-        const name = row.querySelector('.item-name').value;
-        const qty = parseInt(row.querySelector('.item-qty').value);
-        const price = parseInt(row.querySelector('.item-price').value);
-        const itemTotal = qty * price;
+            itemRows.forEach(row => {
+                const name = row.querySelector('.item-name').value;
+                const qty = parseInt(row.querySelector('.item-qty').value);
+                const price = parseInt(row.querySelector('.item-price').value);
+                const itemTotal = qty * price;
 
-        items.push({ name, qty, price, total: itemTotal });
-        subtotal += itemTotal;
-    });
+                items.push({ name, qty, price, total: itemTotal });
+                subtotal += itemTotal;
+            });
 
-    if (items.length === 0) {
-        alert('Please add at least one item!');
-        return;
-    }
+            if (items.length === 0) {
+                alert('Please add at least one item!');
+                return;
+            }
 
-    const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
-    const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
-    const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
-    const coinUsed = parseInt(document.getElementById('coinUsed').value) || 0;
-const voucherStore = parseInt(document.getElementById('voucherStore').value) || 0;
-const voucherShopee = parseInt(document.getElementById('voucherShopee').value) || 0;
-const protectionFee = parseInt(document.getElementById('protectionFee').value) || 0;
+            const serviceFee = parseInt(document.getElementById('serviceFee').value) || 0;
+            const shippingCost = parseInt(document.getElementById('shippingCost').value) || 0;
+            const shippingDiscount = parseInt(document.getElementById('shippingDiscount').value) || 0;
+            const coinUsed = parseInt(document.getElementById('coinUsed').value) || 0;
+            const voucherStore = parseInt(document.getElementById('voucherStore').value) || 0;
+            const voucherShopee = parseInt(document.getElementById('voucherShopee').value) || 0;
+            const protectionFee = parseInt(document.getElementById('protectionFee').value) || 0;
 
-let finalTotal = subtotal + serviceFee + shippingCost + protectionFee 
-                - shippingDiscount - coinUsed - voucherStore - voucherShopee;
-if (finalTotal < 0) finalTotal = 0;
+            let finalTotal = subtotal + serviceFee + shippingCost + protectionFee 
+                            - shippingDiscount - coinUsed - voucherStore - voucherShopee;
+            if (finalTotal < 0) finalTotal = 0;
 
-const newBooking = {
-    date: date,
-    customerName: customerName,
-    items: items,
-    status: status,
-    serviceFee: serviceFee,
-    shippingCost: shippingCost,
-    shippingDiscount: shippingDiscount,
-    coinUsed: coinUsed,
-    voucherStore: voucherStore,
-    voucherShopee: voucherShopee,
-    protectionFee: protectionFee,
-    total: finalTotal,
-    timestamp: Date.now()
-};
+            const bookingData = {
+                date: date,
+                customerName: customerName,
+                items: items,
+                status: status,
+                serviceFee: serviceFee,
+                shippingCost: shippingCost,
+                shippingDiscount: shippingDiscount,
+                coinUsed: coinUsed,
+                voucherStore: voucherStore,
+                voucherShopee: voucherShopee,
+                protectionFee: protectionFee,
+                total: finalTotal,
+                timestamp: Date.now()
+            };
 
-    push(bookingsRef, newBooking);
-    window.closeModal();
-};
+            if (bookingId) {
+                // Edit existing booking
+                const bookingRef = ref(database, 'bookings/' + bookingId);
+                update(bookingRef, bookingData);
+            } else {
+                // Add new booking
+                push(bookingsRef, bookingData);
+            }
+            
+            window.closeModal();
+        };
+
+        window.viewBooking = function(bookingId) {
+            const booking = allBookings.find(b => b.id === bookingId);
+            if (!booking) return;
+
+            currentPreviewBooking = booking;
+
+            let itemsHtml = '';
+            if (booking.items && booking.items.length > 0) {
+                booking.items.forEach(item => {
+                    itemsHtml += `
+                        <div class="preview-item">
+                            <div class="preview-item-row">
+                                <span style="font-weight: bold;">${item.name}</span>
+                                <span>${formatRupiah(item.total)}</span>
+                            </div>
+                            <div class="preview-item-row" style="font-size: 0.9em; color: #666;">
+                                <span>Qty: ${item.qty}</span>
+                                <span>Price: ${formatRupiah(item.price)}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            const previewHtml = `
+                <div class="preview-section">
+                    <h3>Customer Information</h3>
+                    <div class="preview-row">
+                        <span class="preview-label">Date:</span>
+                        <span class="preview-value">${booking.date}</span>
+                    </div>
+                    <div class="preview-row">
+                        <span class="preview-label">Name:</span>
+                        <span class="preview-value">${booking.customerName || booking.name || '-'}</span>
+                    </div>
+                    <div class="preview-row">
+                        <span class="preview-label">Status:</span>
+                        <span class="preview-value" style="color: ${booking.status === 'Paid' ? '#27ae60' : booking.status === 'Cancelled' ? '#ff4757' : '#667eea'}; font-weight: bold;">${booking.status}</span>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h3>Items</h3>
+                    <div class="preview-items">
+                        ${itemsHtml}
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h3>Payment Details</h3>
+                    ${booking.serviceFee > 0 ? `<div class="preview-row">
+                        <span class="preview-label">Biaya Layanan:</span>
+                        <span class="preview-value">${formatRupiah(booking.serviceFee)}</span>
+                    </div>` : ''}
+                    ${booking.shippingCost > 0 ? `<div class="preview-row">
+                        <span class="preview-label">Total Pengiriman:</span>
+                        <span class="preview-value">${formatRupiah(booking.shippingCost)}</span>
+                    </div>` : ''}
+                    ${booking.shippingDiscount > 0 ? `<div class="preview-row">
+                        <span class="preview-label">Diskon Pengiriman:</span>
+                        <span class="preview-value" style="color: #27ae60;">-${formatRupiah(booking.shippingDiscount)}</span>
+                    </div>` : ''}
+                    ${booking.coinUsed > 0 ? `<div class="preview-row">
+                        <span class="preview-label">Coin Digunakan:</span>
+                        <span class="preview-value" style="color: #27ae60;">-${formatRupiah(booking.coinUsed)}</span>
+                    </div>` : ''}
+                    ${booking.voucherStore > 0 ? `<div class="preview-row">
+                        <span class="preview-label">Voucher Toko:</span>
+                        <span class="preview-value" style="color: #27ae60;">-${formatRupiah(booking.voucherStore)}</span>
+                    </div>` : ''}
+                    ${booking.voucherShopee > 0 ? `<div class="preview-row">
+                        <span class="preview-label">Voucher Shopee:</span>
+                        <span class="preview-value" style="color: #27ae60;">-${formatRupiah(booking.voucherShopee)}</span>
+                    </div>` : ''}
+                    ${booking.protectionFee > 0 ? `<div class="preview-row">
+                        <span class="preview-label">Proteksi:</span>
+                        <span class="preview-value">${formatRupiah(booking.protectionFee)}</span>
+                    </div>` : ''}
+                    <div class="preview-row" style="border-top: 2px solid #667eea; margin-top: 10px; padding-top: 10px; font-size: 1.2em;">
+                        <span class="preview-label" style="color: #667eea;">Total:</span>
+                        <span class="preview-value" style="color: #667eea; font-weight: bold;">${formatRupiah(booking.total)}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('previewContent').innerHTML = previewHtml;
+            document.getElementById('previewModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        window.closePreviewModal = function() {
+            document.getElementById('previewModal').style.display = 'none';
+            currentPreviewBooking = null;
+            document.body.style.overflow = 'auto';
+        }
+
+        window.toggleEditMode = function() {
+            const previewContent = document.getElementById('previewContent');
+            const editContent = document.getElementById('editContent');
+            const previewButtons = document.getElementById('previewButtons');
+            const editButtons = document.getElementById('editButtons');
+            const previewTitle = document.getElementById('previewTitle');
+
+            if (!currentPreviewBooking) return;
+
+            // Build edit form
+            let itemsHtml = '';
+            let itemIndex = 0;
+            
+            if (currentPreviewBooking.items && currentPreviewBooking.items.length > 0) {
+                currentPreviewBooking.items.forEach(item => {
+                    itemsHtml += `
+                        <div class="preview-item" style="background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+                            <input type="text" class="edit-item-name" data-index="${itemIndex}" value="${item.name}" placeholder="Item name" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 5px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                                <input type="number" class="edit-item-qty" data-index="${itemIndex}" value="${item.qty}" placeholder="Qty" min="1" style="padding: 8px; border: 2px solid #ddd; border-radius: 5px;">
+                                <input type="number" class="edit-item-price" data-index="${itemIndex}" value="${item.price}" placeholder="Price" min="0" style="padding: 8px; border: 2px solid #ddd; border-radius: 5px;">
+                            </div>
+                        </div>
+                    `;
+                    itemIndex++;
+                });
+            }
+
+            const editHtml = `
+                <div class="preview-section">
+                    <h3>Customer Information</h3>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Date:</label>
+                        <input type="date" id="editDate" value="${currentPreviewBooking.date}" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Name:</label>
+                        <input type="text" id="editCustomerName" value="${currentPreviewBooking.customerName || currentPreviewBooking.name || ''}" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Status:</label>
+                        <select id="editStatus" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                            <option value="Pending" ${currentPreviewBooking.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Paid" ${currentPreviewBooking.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                            <option value="Cancelled" ${currentPreviewBooking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h3>Items</h3>
+                    <div id="editItemsContainer">
+                        ${itemsHtml}
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h3>Payment Details</h3>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Biaya Layanan:</label>
+                        <input type="number" id="editServiceFee" value="${currentPreviewBooking.serviceFee || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Total Pengiriman:</label>
+                        <input type="number" id="editShippingCost" value="${currentPreviewBooking.shippingCost || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Diskon Pengiriman:</label>
+                        <input type="number" id="editShippingDiscount" value="${currentPreviewBooking.shippingDiscount || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Coin Digunakan:</label>
+                        <input type="number" id="editCoinUsed" value="${currentPreviewBooking.coinUsed || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Voucher Toko:</label>
+                        <input type="number" id="editVoucherStore" value="${currentPreviewBooking.voucherStore || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Voucher Shopee:</label>
+                        <input type="number" id="editVoucherShopee" value="${currentPreviewBooking.voucherShopee || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Proteksi:</label>
+                        <input type="number" id="editProtectionFee" value="${currentPreviewBooking.protectionFee || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    </div>
+                </div>
+            `;
+
+            editContent.innerHTML = editHtml;
+            previewContent.style.display = 'none';
+            editContent.style.display = 'block';
+            previewButtons.style.display = 'none';
+            editButtons.style.display = 'flex';
+            previewTitle.textContent = 'Edit Booking';
+        }
+
+        window.cancelEdit = function() {
+            const previewContent = document.getElementById('previewContent');
+            const editContent = document.getElementById('editContent');
+            const previewButtons = document.getElementById('previewButtons');
+            const editButtons = document.getElementById('editButtons');
+            const previewTitle = document.getElementById('previewTitle');
+
+            previewContent.style.display = 'block';
+            editContent.style.display = 'none';
+            previewButtons.style.display = 'flex';
+            editButtons.style.display = 'none';
+            previewTitle.textContent = 'Booking Details';
+        }
+
+        window.saveEditedBooking = function() {
+            if (!currentPreviewBooking) return;
+
+            const date = document.getElementById('editDate').value;
+            const customerName = document.getElementById('editCustomerName').value;
+            const status = document.getElementById('editStatus').value;
+
+            // Get items
+            const items = [];
+            const itemNames = document.querySelectorAll('.edit-item-name');
+            const itemQtys = document.querySelectorAll('.edit-item-qty');
+            const itemPrices = document.querySelectorAll('.edit-item-price');
+
+            for (let i = 0; i < itemNames.length; i++) {
+                const name = itemNames[i].value;
+                const qty = parseInt(itemQtys[i].value) || 0;
+                const price = parseInt(itemPrices[i].value) || 0;
+                const itemTotal = qty * price;
+
+                items.push({ name, qty, price, total: itemTotal });
+            }
+
+            const serviceFee = parseInt(document.getElementById('editServiceFee').value) || 0;
+            const shippingCost = parseInt(document.getElementById('editShippingCost').value) || 0;
+            const shippingDiscount = parseInt(document.getElementById('editShippingDiscount').value) || 0;
+            const coinUsed = parseInt(document.getElementById('editCoinUsed').value) || 0;
+            const voucherStore = parseInt(document.getElementById('editVoucherStore').value) || 0;
+            const voucherShopee = parseInt(document.getElementById('editVoucherShopee').value) || 0;
+            const protectionFee = parseInt(document.getElementById('editProtectionFee').value) || 0;
+
+            let subtotal = items.reduce((sum, item) => sum + item.total, 0);
+            let finalTotal = subtotal + serviceFee + shippingCost + protectionFee 
+                            - shippingDiscount - coinUsed - voucherStore - voucherShopee;
+            if (finalTotal < 0) finalTotal = 0;
+
+            const bookingData = {
+                date: date,
+                customerName: customerName,
+                items: items,
+                status: status,
+                serviceFee: serviceFee,
+                shippingCost: shippingCost,
+                shippingDiscount: shippingDiscount,
+                coinUsed: coinUsed,
+                voucherStore: voucherStore,
+                voucherShopee: voucherShopee,
+                protectionFee: protectionFee,
+                total: finalTotal,
+                timestamp: currentPreviewBooking.timestamp
+            };
+
+            const bookingRef = ref(database, 'bookings/' + currentPreviewBooking.id);
+            update(bookingRef, bookingData);
+            
+            closePreviewModal();
+        }
+
+        window.editFromPreview = function() {
+            if (!currentPreviewBooking) return;
+            
+            closePreviewModal();
+            editBooking(currentPreviewBooking.id);
+        }
+
+        window.deleteFromPreview = function() {
+            if (!currentPreviewBooking) return;
+            
+            if (confirm('Are you sure you want to delete this booking?')) {
+                const bookingRef = ref(database, 'bookings/' + currentPreviewBooking.id);
+                remove(bookingRef);
+                closePreviewModal();
+            }
+        }
+
+        window.editBooking = function(bookingId) {
+            const booking = allBookings.find(b => b.id === bookingId);
+            if (!booking) return;
+
+            document.getElementById('editBookingId').value = bookingId;
+            document.getElementById('modalTitle').textContent = 'Edit Booking';
+            document.getElementById('submitBtn').textContent = 'Update Booking';
+            
+            document.getElementById('date').value = booking.date;
+            document.getElementById('customerName').value = booking.customerName || booking.name || '';
+            document.getElementById('status').value = booking.status;
+            document.getElementById('serviceFee').value = booking.serviceFee || 0;
+            document.getElementById('shippingCost').value = booking.shippingCost || 0;
+            document.getElementById('shippingDiscount').value = booking.shippingDiscount || 0;
+            document.getElementById('coinUsed').value = booking.coinUsed || 0;
+            document.getElementById('voucherStore').value = booking.voucherStore || 0;
+            document.getElementById('voucherShopee').value = booking.voucherShopee || 0;
+            document.getElementById('protectionFee').value = booking.protectionFee || 0;
+
+            const itemsContainer = document.getElementById('itemsContainer');
+            itemsContainer.innerHTML = '';
+            itemCounter = 0;
+
+            if (booking.items && booking.items.length > 0) {
+                booking.items.forEach(item => {
+                    const itemId = itemCounter++;
+                    const itemRow = document.createElement('div');
+                    itemRow.className = 'item-row';
+                    itemRow.id = `item-${itemId}`;
+                    itemRow.innerHTML = `
+                        <input type="text" placeholder="Item name" class="item-name" value="${item.name}" required>
+                        <input type="number" placeholder="Qty" min="1" class="item-qty" value="${item.qty}" required oninput="calculateTotal()">
+                        <input type="number" placeholder="Price" min="0" class="item-price" value="${item.price}" required oninput="calculateTotal()">
+                        <button type="button" class="btn-remove-item" onclick="removeItemRow(${itemId})">Remove</button>
+                    `;
+                    itemsContainer.appendChild(itemRow);
+                });
+            } else {
+                addItemRow();
+            }
+
+            calculateTotal();
+            document.getElementById('myModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
 
         window.deleteRow = function(bookingId) {
             if (confirm('Are you sure you want to delete this booking?')) {
@@ -892,7 +1519,7 @@ const newBooking = {
                 });
 
                 if (bookings.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add New Booking" to get started!</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add Booking" to get started!</td></tr>';
                     document.getElementById('totalPrice').textContent = formatRupiah(0);
                     allBookings = [];
                     return;
@@ -905,6 +1532,11 @@ const newBooking = {
                     if (booking.items && booking.items.length > 0) {
                         booking.items.forEach((item, index) => {
                             const row = tableBody.insertRow();
+                            if (index === 0) {
+                                row.className = 'clickable-row';
+                                row.onclick = () => viewBooking(booking.id);
+                            }
+                            
                             row.innerHTML = `
                                 <td>${index === 0 ? booking.date : ''}</td>
                                 <td>${index === 0 ? booking.customerName || booking.name || '-' : ''}</td>
@@ -912,18 +1544,26 @@ const newBooking = {
                                 <td>${item.qty}</td>
                                 <td>${formatRupiah(item.price)}</td>
                                 <td>
-                                    ${index === 0 ? `<select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
+                                    ${index === 0 ? `<select class="status-select" onclick="event.stopPropagation()" onchange="updateStatus('${booking.id}', this.value)">
                                         <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
                                         <option value="Paid" ${booking.status === 'Paid' ? 'selected' : ''}>Paid</option>
                                         <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
                                     </select>` : ''}
                                 </td>
                                 <td>${index === 0 ? '<strong>' + formatRupiah(booking.total) + '</strong>' : ''}</td>
-                                <td>${index === 0 ? `<button class="btn-delete" onclick="deleteRow('${booking.id}')">Delete</button>` : ''}</td>
+                                <td>
+                                    ${index === 0 ? `
+                                        <button class="btn-view" onclick="event.stopPropagation(); viewBooking('${booking.id}')">View</button>
+                                        <button class="btn-delete" onclick="event.stopPropagation(); deleteRow('${booking.id}')">Delete</button>
+                                    ` : ''}
+                                </td>
                             `;
                         });
                     } else {
                         const row = tableBody.insertRow();
+                        row.className = 'clickable-row';
+                        row.onclick = () => viewBooking(booking.id);
+                        
                         row.innerHTML = `
                             <td>${booking.date}</td>
                             <td>${booking.name || '-'}</td>
@@ -931,14 +1571,17 @@ const newBooking = {
                             <td>${booking.qty || 0}</td>
                             <td>${formatRupiah(booking.price || 0)}</td>
                             <td>
-                                <select class="status-select" onchange="updateStatus('${booking.id}', this.value)">
+                                <select class="status-select" onclick="event.stopPropagation()" onchange="updateStatus('${booking.id}', this.value)">
                                     <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
                                     <option value="Paid" ${booking.status === 'Paid' ? 'selected' : ''}>Paid</option>
                                     <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
                                 </select>
                             </td>
                             <td><strong>${formatRupiah(booking.total)}</strong></td>
-                            <td><button class="btn-delete" onclick="deleteRow('${booking.id}')">Delete</button></td>
+                            <td>
+                                <button class="btn-view" onclick="event.stopPropagation(); viewBooking('${booking.id}')">View</button>
+                                <button class="btn-delete" onclick="event.stopPropagation(); deleteRow('${booking.id}')">Delete</button>
+                            </td>
                         `;
                     }
                     total += booking.total;
@@ -1015,8 +1658,13 @@ const newBooking = {
 
         window.onclick = function(event) {
             const modal = document.getElementById('myModal');
+            const previewModal = document.getElementById('previewModal');
+            
             if (event.target == modal) {
                 window.closeModal();
+            }
+            if (event.target == previewModal) {
+                window.closePreviewModal();
             }
         }
     </script>
