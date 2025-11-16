@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -15,16 +16,16 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #7b8cde 0%, #8e7cc3 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
+            border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            padding: 30px;
+            padding: 15px;
         }
 
         .auth-container {
@@ -86,9 +87,9 @@
 
         h1 {
             color: #7b8cde;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: center;
-            font-size: 2.2em;
+            font-size: 1.5em;
             font-weight: 600;
         }
 
@@ -100,10 +101,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding: 0;
-            background: transparent;
-            border-radius: 0;
+            margin-bottom: 15px;
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -111,7 +109,7 @@
         .user-email {
             color: #7b8cde;
             font-weight: 600;
-            font-size: 0.95em;
+            font-size: 0.85em;
             word-break: break-all;
         }
 
@@ -123,12 +121,12 @@
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
             color: white;
             border: none;
-            padding: 10px 30px;
-            border-radius: 25px;
+            padding: 8px 20px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
-            font-size: 14px;
+            font-size: 13px;
             box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
         }
 
@@ -137,26 +135,22 @@
             box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
         }
 
-        .btn-logout:hover {
-            background: #ff3838;
-        }
-
         .btn-container {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
         .btn-add, .btn-export {
             flex: 1;
-            min-width: 200px;
+            min-width: 140px;
             color: white;
             border: none;
-            padding: 16px 30px;
-            border-radius: 30px;
+            padding: 12px 20px;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             transition: all 0.3s;
         }
@@ -189,55 +183,178 @@
             box-shadow: 0 6px 20px rgba(81, 207, 102, 0.4);
         }
 
-        .btn-export:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        /* Mobile Card View */
+        .bookings-list {
+            display: none;
         }
 
-        /* Mobile Table Styles */
+        .booking-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .booking-card:active {
+            transform: scale(0.98);
+        }
+
+        .booking-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .booking-date {
+            font-size: 0.85em;
+            color: #7b8cde;
+            font-weight: 600;
+        }
+
+        .booking-name {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .booking-status {
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-paid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .booking-items {
+            margin: 10px 0;
+        }
+
+        .item-row-card {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+
+        .item-row-card:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #555;
+            flex: 1;
+        }
+
+        .item-qty-price {
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        .booking-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 2px solid #7b8cde;
+        }
+
+        .total-label {
+            font-weight: 700;
+            color: #7b8cde;
+        }
+
+        .total-amount {
+            font-size: 1.2em;
+            font-weight: 800;
+            color: #7b8cde;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-card-action {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .btn-view-card {
+            background: linear-gradient(135deg, #7b8cde 0%, #6c7ecf 100%);
+            color: white;
+        }
+
+        .btn-delete-card {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+        }
+
+        /* Desktop Table View */
         .table-container {
             overflow-x: auto;
+            display: none;
             -webkit-overflow-scrolling: touch;
-            margin-bottom: 15px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            min-width: 600px;
+            min-width: 800px;
         }
 
         th {
             background: linear-gradient(135deg, #7b8cde 0%, #8e7cc3 100%);
             color: white;
-            padding: 15px 12px;
+            padding: 12px 10px;
             text-align: left;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             position: sticky;
             top: 0;
             z-index: 10;
         }
 
         td {
-            padding: 18px 12px;
+            padding: 12px 10px;
             border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
+            font-size: 13px;
             vertical-align: middle;
             background: white;
         }
 
         tr:nth-child(even) td {
             background: #fafbfc;
-        }
-
-        tr:hover {
-            background-color: transparent;
-        }
-
-        tr:hover td {
-            background-color: #f0f4ff;
         }
 
         tr.clickable-row {
@@ -249,15 +366,15 @@
         }
 
         .status-select {
-            padding: 8px 12px;
+            padding: 6px 10px;
             border: 2px solid #7b8cde;
-            border-radius: 8px;
+            border-radius: 6px;
             background: white;
             color: #7b8cde;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             width: auto;
-            min-width: 100px;
+            min-width: 90px;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -268,60 +385,36 @@
             box-shadow: 0 0 0 3px rgba(123, 140, 222, 0.1);
         }
 
-        .status-select:hover {
-            border-color: #6c7ecf;
-        }
-
-        .btn-delete, .btn-view, .btn-edit {
+        .btn-delete, .btn-view {
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 8px;
+            padding: 7px 15px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            margin: 3px;
-            min-width: 75px;
+            margin: 2px;
+            min-width: 70px;
             display: inline-block;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .btn-delete {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
         }
 
-        .btn-delete:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
-        }
-
         .btn-view {
             background: linear-gradient(135deg, #7b8cde 0%, #6c7ecf 100%);
-        }
-
-        .btn-view:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(123, 140, 222, 0.3);
-        }
-
-        .btn-edit {
-            background: linear-gradient(135deg, #ffa502 0%, #ff8c00 100%);
-        }
-
-        .btn-edit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 165, 2, 0.3);
         }
 
         .total-row {
             background: #f8f9fa;
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.05em;
         }
 
         .total-row td {
-            padding: 15px 8px;
+            padding: 12px 10px;
             border-top: 3px solid #667eea;
         }
 
@@ -362,7 +455,7 @@
         .modal-header h2 {
             color: #667eea;
             margin: 0;
-            font-size: 1.3em;
+            font-size: 1.2em;
         }
 
         .close {
@@ -386,7 +479,7 @@
             margin-bottom: 5px;
             color: #667eea;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .form-group input, .form-group select {
@@ -406,23 +499,23 @@
         .form-group small {
             display: block;
             margin-top: 5px;
-            font-size: 12px;
+            font-size: 11px;
         }
 
-        .btn-submit, .btn-edit {
+        .btn-submit {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             padding: 12px 30px;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             width: 100%;
             transition: transform 0.2s;
         }
 
-        .btn-submit:hover, .btn-edit:hover {
+        .btn-submit:hover {
             transform: translateY(-2px);
         }
 
@@ -434,7 +527,7 @@
             margin-bottom: 15px;
             text-align: center;
             display: none;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .success-message {
@@ -445,7 +538,7 @@
             margin-bottom: 15px;
             text-align: center;
             display: none;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         #authSection {
@@ -456,10 +549,9 @@
             display: none;
         }
 
-        /* Preview Modal Styles */
         .preview-section {
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 15px;
+            padding: 12px;
             background: #f8f9fa;
             border-radius: 8px;
         }
@@ -467,14 +559,15 @@
         .preview-section h3 {
             color: #667eea;
             margin-bottom: 10px;
-            font-size: 1.1em;
+            font-size: 1em;
         }
 
         .preview-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 6px 0;
             border-bottom: 1px solid #ddd;
+            font-size: 0.9em;
         }
 
         .preview-row:last-child {
@@ -507,25 +600,25 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
+            font-size: 0.9em;
         }
 
         .modal-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 8px;
+            margin-top: 15px;
         }
 
         .modal-buttons button {
             flex: 1;
-            padding: 12px 20px;
-            font-size: 15px;
+            padding: 10px 15px;
+            font-size: 14px;
         }
 
-        /* Multiple Items Styles */
         .items-container {
             border: 2px solid #667eea;
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
             margin-bottom: 15px;
             background: #f8f9fa;
         }
@@ -534,23 +627,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .items-header h3 {
             color: #667eea;
             margin: 0;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .btn-add-item {
             background: #667eea;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 7px 12px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             transition: background 0.2s;
         }
@@ -563,17 +656,17 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             padding: 10px;
             background: white;
             border-radius: 8px;
         }
 
         .item-row input {
-            padding: 10px;
+            padding: 8px;
             border: 2px solid #ddd;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .item-row input:focus {
@@ -585,10 +678,10 @@
             background: #ff4757;
             color: white;
             border: none;
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .btn-remove-item:hover {
@@ -599,20 +692,20 @@
             text-align: right;
             color: #667eea;
             font-weight: bold;
-            font-size: 1.1em;
-            margin-top: 10px;
-            padding-top: 10px;
+            font-size: 1em;
+            margin-top: 8px;
+            padding-top: 8px;
             border-top: 2px solid #667eea;
         }
 
         /* Tablet Styles */
         @media (min-width: 600px) {
             .container {
-                padding: 30px;
+                padding: 25px;
             }
 
             h1 {
-                font-size: 2.5em;
+                font-size: 2em;
             }
 
             .item-row {
@@ -625,11 +718,15 @@
             }
 
             .btn-remove-item {
-                height: 42px;
+                height: 38px;
             }
 
             .modal-content {
-                padding: 30px;
+                padding: 25px;
+            }
+
+            .booking-card {
+                padding: 20px;
             }
         }
 
@@ -640,20 +737,19 @@
             }
 
             .container {
-                padding: 40px;
+                padding: 30px;
             }
 
             h1 {
-                font-size: 2.8em;
+                font-size: 2.2em;
             }
 
-            table {
-                min-width: 100%;
+            .bookings-list {
+                display: none !important;
             }
 
-            th, td {
-                font-size: 14px;
-                padding: 15px 12px;
+            .table-container {
+                display: block !important;
             }
 
             .modal-content {
@@ -661,17 +757,33 @@
                 width: 90%;
                 max-width: 700px;
             }
+        }
 
-            .btn-delete, .btn-view, .btn-edit {
-                min-width: 80px;
-                font-size: 14px;
+        /* Mobile-first: Show cards by default */
+        @media (max-width: 1023px) {
+            .bookings-list {
+                display: block;
+            }
+
+            .table-container {
+                display: none;
             }
         }
 
-        /* Touch-friendly improvements */
         button, select, input[type="button"] {
             -webkit-tap-highlight-color: rgba(0,0,0,0.1);
             touch-action: manipulation;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -739,6 +851,15 @@
                 <button class="btn-export" onclick="exportToExcel()">Export Excel</button>
             </div>
             
+            <!-- Mobile Card View -->
+            <div class="bookings-list" id="bookingsList">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>Loading bookings...</p>
+                </div>
+            </div>
+
+            <!-- Desktop Table View -->
             <div class="table-container">
                 <table id="bookingTable">
                     <thead>
@@ -764,6 +885,14 @@
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+
+            <!-- Grand Total for Mobile -->
+            <div class="bookings-list" style="margin-top: 15px;">
+                <div class="booking-total" style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                    <span class="total-label" style="font-size: 1.1em;">GRAND TOTAL:</span>
+                    <span class="total-amount" style="font-size: 1.3em;" id="totalPriceMobile">Rp 0</span>
+                </div>
             </div>
         </div>
 
@@ -839,7 +968,7 @@
                         <small style="color: #888;">Proteksi akan menambah total harga akhir</small>
                     </div>
 
-                    <div class="item-total" style="font-size: 1.2em; margin-top: 15px;">
+                    <div class="item-total" style="font-size: 1.1em; margin-top: 15px;">
                         Total Keseluruhan: <span id="modalTotal">Rp 0</span>
                     </div>
 
@@ -873,8 +1002,8 @@
                 </div>
 
                 <div class="modal-buttons" id="previewButtons">
-                    <button class="btn-edit" onclick="toggleEditMode()">✏️ Edit</button>
-                    <button class="btn-delete" onclick="deleteFromPreview()">🗑️ Delete</button>
+                    <button class="btn-submit" onclick="toggleEditMode()">✏️ Edit</button>
+                    <button class="btn-delete-card" onclick="deleteFromPreview()">🗑️ Delete</button>
                 </div>
 
                 <div class="modal-buttons" id="editButtons" style="display: none;">
@@ -1154,11 +1283,9 @@
             };
 
             if (bookingId) {
-                // Edit existing booking
                 const bookingRef = ref(database, 'bookings/' + bookingId);
                 update(bookingRef, bookingData);
             } else {
-                // Add new booking
                 push(bookingsRef, bookingData);
             }
             
@@ -1180,7 +1307,7 @@
                                 <span style="font-weight: bold;">${item.name}</span>
                                 <span>${formatRupiah(item.total)}</span>
                             </div>
-                            <div class="preview-item-row" style="font-size: 0.9em; color: #666;">
+                            <div class="preview-item-row" style="font-size: 0.85em; color: #666;">
                                 <span>Qty: ${item.qty}</span>
                                 <span>Price: ${formatRupiah(item.price)}</span>
                             </div>
@@ -1243,7 +1370,7 @@
                         <span class="preview-label">Proteksi:</span>
                         <span class="preview-value">${formatRupiah(booking.protectionFee)}</span>
                     </div>` : ''}
-                    <div class="preview-row" style="border-top: 2px solid #667eea; margin-top: 10px; padding-top: 10px; font-size: 1.2em;">
+                    <div class="preview-row" style="border-top: 2px solid #667eea; margin-top: 10px; padding-top: 10px; font-size: 1.1em;">
                         <span class="preview-label" style="color: #667eea;">Total:</span>
                         <span class="preview-value" style="color: #667eea; font-weight: bold;">${formatRupiah(booking.total)}</span>
                     </div>
@@ -1270,7 +1397,6 @@
 
             if (!currentPreviewBooking) return;
 
-            // Build edit form
             let itemsHtml = '';
             let itemIndex = 0;
             
@@ -1278,10 +1404,10 @@
                 currentPreviewBooking.items.forEach(item => {
                     itemsHtml += `
                         <div class="preview-item" style="background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                            <input type="text" class="edit-item-name" data-index="${itemIndex}" value="${item.name}" placeholder="Item name" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 5px;">
+                            <input type="text" class="edit-item-name" data-index="${itemIndex}" value="${item.name}" placeholder="Item name" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 5px; font-size: 13px;">
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
-                                <input type="number" class="edit-item-qty" data-index="${itemIndex}" value="${item.qty}" placeholder="Qty" min="1" style="padding: 8px; border: 2px solid #ddd; border-radius: 5px;">
-                                <input type="number" class="edit-item-price" data-index="${itemIndex}" value="${item.price}" placeholder="Price" min="0" style="padding: 8px; border: 2px solid #ddd; border-radius: 5px;">
+                                <input type="number" class="edit-item-qty" data-index="${itemIndex}" value="${item.qty}" placeholder="Qty" min="1" style="padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
+                                <input type="number" class="edit-item-price" data-index="${itemIndex}" value="${item.price}" placeholder="Price" min="0" style="padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                             </div>
                         </div>
                     `;
@@ -1293,16 +1419,16 @@
                 <div class="preview-section">
                     <h3>Customer Information</h3>
                     <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Date:</label>
-                        <input type="date" id="editDate" value="${currentPreviewBooking.date}" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 13px;">Date:</label>
+                        <input type="date" id="editDate" value="${currentPreviewBooking.date}" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
                     <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Name:</label>
-                        <input type="text" id="editCustomerName" value="${currentPreviewBooking.customerName || currentPreviewBooking.name || ''}" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 13px;">Name:</label>
+                        <input type="text" id="editCustomerName" value="${currentPreviewBooking.customerName || currentPreviewBooking.name || ''}" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
                     <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Status:</label>
-                        <select id="editStatus" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 13px;">Status:</label>
+                        <select id="editStatus" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                             <option value="Pending" ${currentPreviewBooking.status === 'Pending' ? 'selected' : ''}>Pending</option>
                             <option value="Paid" ${currentPreviewBooking.status === 'Paid' ? 'selected' : ''}>Paid</option>
                             <option value="Cancelled" ${currentPreviewBooking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
@@ -1319,33 +1445,33 @@
 
                 <div class="preview-section">
                     <h3>Payment Details</h3>
-                    <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Biaya Layanan:</label>
-                        <input type="number" id="editServiceFee" value="${currentPreviewBooking.serviceFee || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    <div class="form-group" style="margin-bottom: 8px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 12px;">Biaya Layanan:</label>
+                        <input type="number" id="editServiceFee" value="${currentPreviewBooking.serviceFee || 0}" min="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
-                    <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Total Pengiriman:</label>
-                        <input type="number" id="editShippingCost" value="${currentPreviewBooking.shippingCost || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    <div class="form-group" style="margin-bottom: 8px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 12px;">Total Pengiriman:</label>
+                        <input type="number" id="editShippingCost" value="${currentPreviewBooking.shippingCost || 0}" min="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
-                    <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Diskon Pengiriman:</label>
-                        <input type="number" id="editShippingDiscount" value="${currentPreviewBooking.shippingDiscount || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    <div class="form-group" style="margin-bottom: 8px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 12px;">Diskon Pengiriman:</label>
+                        <input type="number" id="editShippingDiscount" value="${currentPreviewBooking.shippingDiscount || 0}" min="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
-                    <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Coin Digunakan:</label>
-                        <input type="number" id="editCoinUsed" value="${currentPreviewBooking.coinUsed || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    <div class="form-group" style="margin-bottom: 8px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 12px;">Coin Digunakan:</label>
+                        <input type="number" id="editCoinUsed" value="${currentPreviewBooking.coinUsed || 0}" min="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
-                    <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Voucher Toko:</label>
-                        <input type="number" id="editVoucherStore" value="${currentPreviewBooking.voucherStore || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    <div class="form-group" style="margin-bottom: 8px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 12px;">Voucher Toko:</label>
+                        <input type="number" id="editVoucherStore" value="${currentPreviewBooking.voucherStore || 0}" min="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
-                    <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Voucher Shopee:</label>
-                        <input type="number" id="editVoucherShopee" value="${currentPreviewBooking.voucherShopee || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    <div class="form-group" style="margin-bottom: 8px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 12px;">Voucher Shopee:</label>
+                        <input type="number" id="editVoucherShopee" value="${currentPreviewBooking.voucherShopee || 0}" min="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
-                    <div class="form-group" style="margin-bottom: 10px;">
-                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 14px;">Proteksi:</label>
-                        <input type="number" id="editProtectionFee" value="${currentPreviewBooking.protectionFee || 0}" min="0" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; font-size: 14px;">
+                    <div class="form-group" style="margin-bottom: 8px;">
+                        <label style="display: block; margin-bottom: 5px; color: #667eea; font-weight: bold; font-size: 12px;">Proteksi:</label>
+                        <input type="number" id="editProtectionFee" value="${currentPreviewBooking.protectionFee || 0}" min="0" style="width: 100%; padding: 8px; border: 2px solid #ddd; border-radius: 5px; font-size: 13px;">
                     </div>
                 </div>
             `;
@@ -1379,7 +1505,6 @@
             const customerName = document.getElementById('editCustomerName').value;
             const status = document.getElementById('editStatus').value;
 
-            // Get items
             const items = [];
             const itemNames = document.querySelectorAll('.edit-item-name');
             const itemQtys = document.querySelectorAll('.edit-item-qty');
@@ -1429,13 +1554,6 @@
             closePreviewModal();
         }
 
-        window.editFromPreview = function() {
-            if (!currentPreviewBooking) return;
-            
-            closePreviewModal();
-            editBooking(currentPreviewBooking.id);
-        }
-
         window.deleteFromPreview = function() {
             if (!currentPreviewBooking) return;
             
@@ -1444,52 +1562,6 @@
                 remove(bookingRef);
                 closePreviewModal();
             }
-        }
-
-        window.editBooking = function(bookingId) {
-            const booking = allBookings.find(b => b.id === bookingId);
-            if (!booking) return;
-
-            document.getElementById('editBookingId').value = bookingId;
-            document.getElementById('modalTitle').textContent = 'Edit Booking';
-            document.getElementById('submitBtn').textContent = 'Update Booking';
-            
-            document.getElementById('date').value = booking.date;
-            document.getElementById('customerName').value = booking.customerName || booking.name || '';
-            document.getElementById('status').value = booking.status;
-            document.getElementById('serviceFee').value = booking.serviceFee || 0;
-            document.getElementById('shippingCost').value = booking.shippingCost || 0;
-            document.getElementById('shippingDiscount').value = booking.shippingDiscount || 0;
-            document.getElementById('coinUsed').value = booking.coinUsed || 0;
-            document.getElementById('voucherStore').value = booking.voucherStore || 0;
-            document.getElementById('voucherShopee').value = booking.voucherShopee || 0;
-            document.getElementById('protectionFee').value = booking.protectionFee || 0;
-
-            const itemsContainer = document.getElementById('itemsContainer');
-            itemsContainer.innerHTML = '';
-            itemCounter = 0;
-
-            if (booking.items && booking.items.length > 0) {
-                booking.items.forEach(item => {
-                    const itemId = itemCounter++;
-                    const itemRow = document.createElement('div');
-                    itemRow.className = 'item-row';
-                    itemRow.id = `item-${itemId}`;
-                    itemRow.innerHTML = `
-                        <input type="text" placeholder="Item name" class="item-name" value="${item.name}" required>
-                        <input type="number" placeholder="Qty" min="1" class="item-qty" value="${item.qty}" required oninput="calculateTotal()">
-                        <input type="number" placeholder="Price" min="0" class="item-price" value="${item.price}" required oninput="calculateTotal()">
-                        <button type="button" class="btn-remove-item" onclick="removeItemRow(${itemId})">Remove</button>
-                    `;
-                    itemsContainer.appendChild(itemRow);
-                });
-            } else {
-                addItemRow();
-            }
-
-            calculateTotal();
-            document.getElementById('myModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
         }
 
         window.deleteRow = function(bookingId) {
@@ -1502,6 +1574,67 @@
         window.updateStatus = function(bookingId, newStatus) {
             const bookingRef = ref(database, 'bookings/' + bookingId);
             update(bookingRef, { status: newStatus });
+        }
+
+        function renderMobileCards(bookings) {
+            const bookingsList = document.getElementById('bookingsList');
+            
+            if (bookings.length === 0) {
+                bookingsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No bookings yet. Click "Add Booking" to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let cardsHtml = '';
+            bookings.forEach(booking => {
+                let statusClass = 'status-pending';
+                if (booking.status === 'Paid') statusClass = 'status-paid';
+                else if (booking.status === 'Cancelled') statusClass = 'status-cancelled';
+
+                let itemsHtml = '';
+                if (booking.items && booking.items.length > 0) {
+                    booking.items.forEach(item => {
+                        itemsHtml += `
+                            <div class="item-row-card">
+                                <div>
+                                    <div class="item-name">${item.name}</div>
+                                    <div class="item-qty-price">Qty: ${item.qty} × ${formatRupiah(item.price)}</div>
+                                </div>
+                                <div style="font-weight: 600; color: #333;">${formatRupiah(item.total)}</div>
+                            </div>
+                        `;
+                    });
+                }
+
+                cardsHtml += `
+                    <div class="booking-card" onclick="viewBooking('${booking.id}')">
+                        <div class="booking-card-header">
+                            <div>
+                                <div class="booking-date">${booking.date}</div>
+                                <div class="booking-name">${booking.customerName || booking.name || '-'}</div>
+                            </div>
+                            <div class="booking-status ${statusClass}">${booking.status}</div>
+                        </div>
+                        <div class="booking-items">
+                            ${itemsHtml}
+                        </div>
+                        <div class="booking-total">
+                            <span class="total-label">Total:</span>
+                            <span class="total-amount">${formatRupiah(booking.total)}</span>
+                        </div>
+                        <div class="booking-actions" onclick="event.stopPropagation()">
+                            <button class="btn-card-action btn-view-card" onclick="viewBooking('${booking.id}')">👁️ View</button>
+                            <button class="btn-card-action btn-delete-card" onclick="deleteRow('${booking.id}')">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            bookingsList.innerHTML = cardsHtml;
         }
 
         function loadBookings() {
@@ -1521,6 +1654,16 @@
                 if (bookings.length === 0) {
                     tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #999;">No bookings yet. Click "Add Booking" to get started!</td></tr>';
                     document.getElementById('totalPrice').textContent = formatRupiah(0);
+                    document.getElementById('totalPriceMobile').textContent = formatRupiah(0);
+                    
+                    const bookingsList = document.getElementById('bookingsList');
+                    bookingsList.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <p>No bookings yet. Click "Add Booking" to get started!</p>
+                        </div>
+                    `;
+                    
                     allBookings = [];
                     return;
                 }
@@ -1528,6 +1671,10 @@
                 bookings.sort((a, b) => a.timestamp - b.timestamp);
                 allBookings = bookings;
 
+                // Render mobile cards
+                renderMobileCards(bookings);
+
+                // Render desktop table
                 bookings.forEach((booking) => {
                     if (booking.items && booking.items.length > 0) {
                         booking.items.forEach((item, index) => {
@@ -1588,6 +1735,7 @@
                 });
 
                 document.getElementById('totalPrice').textContent = formatRupiah(total);
+                document.getElementById('totalPriceMobile').textContent = formatRupiah(total);
             });
         }
 
